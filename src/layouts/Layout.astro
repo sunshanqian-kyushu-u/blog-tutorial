@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css"
+
+import Navbar from "../components/Navbar.astro"
 ---
 
 <html lang="en">
@@ -11,6 +13,8 @@ import "../styles/global.css"
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<div class="bg-[var(--page-bg)] min-h-[200rem]">
+			<Navbar></Navbar>
+		</div>
 	</body>
 </html>
