@@ -7,4 +7,10 @@
     --page-bg: light-dark(oklch(0.95 0.01 var(--hue)), oklch(0.16 0.014 var(--hue)));
 
     --card-bg: light-dark(rgba(255, 255, 255, 1), oklch(0.23 0.015 var(--hue)));
+
+    --primary: light-dark(oklch(0.70 0.14 var(--hue)), oklch(0.75 0.14 var(--hue)));
+
+    --btn-bg-hover: light-dark(oklch(0.95 0.025 var(--hue)), oklch(0.30 0.035 var(--hue)));
+
+    --btn-bg-active: light-dark(oklch(0.98 0.01 var(--hue)), oklch(0.27 0.025 var(--hue)));
 }

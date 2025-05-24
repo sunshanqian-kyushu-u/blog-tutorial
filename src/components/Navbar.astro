@@ -1,12 +1,22 @@
 ---
-
+import { Icon } from 'astro-icon/components'
+import { siteConfig } from '../config'
 ---
 
 <!-- 外面套一层是因为方便使用 mx-auto -->
 <!-- 不然的话要使用 md:mx-4，与 mx-auto 冲突 -->
 <div class="max-w-[75rem] md:px-4 mx-auto top-0 sticky">
-    <div class="bg-[var(--card-bg)] md:h-[4.5rem] h-16 transition-all rounded-2xl rounded-t-none">
-
+    <div class="flex items-center bg-[var(--card-bg)] md:h-[4.5rem] h-16 md:px-4 px-3.5 
+    rounded-2xl rounded-t-none transition-all">
+        <a href="/" class="flex items-center text-[var(--primary)] md:h-[3.25rem] h-12 md:px-5 px-4 
+        md:rounded-lg rounded-md hover:bg-[var(--btn-bg-hover)] active:bg-[var(--btn-bg-active)] 
+        active:scale-95 transition-all">
+            <Icon name="material-symbols:home-outline-rounded" 
+            class="md:text-[1.75rem] text-2xl md:mr-2 mr-[0.25rem] mb-1"/>
+            <p class="md:text-[0.875rem] text-[0.825rem] font-bold">
+                {siteConfig.subtitle}
+            </p>
+        </a>
     </div>
 </div>
 
