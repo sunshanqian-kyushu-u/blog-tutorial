@@ -13,4 +13,8 @@
     --btn-bg-hover: light-dark(oklch(0.95 0.025 var(--hue)), oklch(0.30 0.035 var(--hue)));
 
     --btn-bg-active: light-dark(oklch(0.98 0.01 var(--hue)), oklch(0.27 0.025 var(--hue)));
+
+    --btn-text: light-dark(rgba(0, 0, 0, 0.75), rgba(255, 255, 255, 0.75));
+
+    --github-icon: light-dark(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.2));
 }

@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components'
-import { siteConfig } from '../config'
+import { siteConfig, NavbarLinks } from '../config'
 ---
 
 <!-- 外面套一层是因为方便使用 mx-auto -->
@@ -17,6 +17,20 @@ import { siteConfig } from '../config'
                 {siteConfig.subtitle}
             </p>
         </a>
+        <div class="flex">
+        {
+            NavbarLinks.map(link => (
+                <a href={link.url} target={link.external ? "_blank" : null} class="group md:flex 
+                hidden items-center h-[3.25rem] px-5 rounded-lg hover:bg-[var(--btn-bg-hover)] 
+                active:bg-[var(--btn-bg-active)] active:scale-95 transition-all">
+                    <p class="text-[var(--btn-text)] group-hover:text-[var(--primary)] 
+                    text-[0.875rem] font-bold">{link.name}</p>
+                    {link.external && <Icon name="fa6-solid:arrow-up-right-from-square"
+                    class="text-[0.875rem] text-[var(--github-icon)] ml-1 mb-1" />}
+                </a>
+            ))
+        }
+        </div>
     </div>
 </div>
 
