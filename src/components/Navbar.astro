@@ -36,16 +36,13 @@ import { siteConfig, NavbarLinks } from '../config'
         <!-- 剩下的部分 -->
         <div class="">
             <!-- 搜索框 -->
-            <!-- <div class="lg:flex hidden items-center bg-[var(--search-bg)] h-12 rounded-lg">
-                <Icon name="material-symbols:search" 
-                class="absolute text-[1.25rem] ml-3 text-[var(--search-icon)] pointer-events-none"/>
-                <input placeholder="Search" class="bg-transparent w-40 active:w-60 focus:w-60 pl-10 outline-0 h-full">
-            </div> -->
-            <div class="lg:flex hidden items-center bg-[var(--search-bg)] h-12 rounded-lg">
+            <div class="lg:flex hidden items-center bg-[var(--search-bg)] h-12 rounded-lg 
+            hover:bg-[var(--search-bg-hover-focus)] focus-within:bg-[var(--search-bg-hover-focus)] 
+            transition-all">
                 <Icon name="material-symbols:search"
                 class="absolute text-[var(--search-icon)] text-[1.25rem] ml-3 pointer-events-none"/>
                 <input placeholder="Search" class="bg-transparent w-40 active:w-60 focus:w-60 
-                text-sm h-full pl-10 outline-0 ">
+                h-full pl-10 outline-0 text-[var(--search-text)] text-sm transition-all">
             </div>
             <!-- 搜索按钮 -->
         </div>
