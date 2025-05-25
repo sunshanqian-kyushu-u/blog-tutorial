@@ -7,7 +7,8 @@ import { siteConfig, NavbarLinks } from '../config'
 <!-- 不然的话要使用 md:mx-4，与 mx-auto 冲突 -->
 <div class="max-w-[75rem] md:px-4 mx-auto top-0 sticky">
     <div class="flex items-center bg-[var(--card-bg)] md:h-[4.5rem] h-16 md:px-4 px-3.5 
-    rounded-2xl rounded-t-none transition-all">
+    rounded-2xl rounded-t-none justify-between transition-all">
+        <!-- 房子图标 -->
         <a href="/" class="flex items-center text-[var(--primary)] md:h-[3.25rem] h-12 md:px-5 px-4 
         md:rounded-lg rounded-md hover:bg-[var(--btn-bg-hover)] active:bg-[var(--btn-bg-active)] 
         active:scale-95 transition-all">
@@ -17,19 +18,36 @@ import { siteConfig, NavbarLinks } from '../config'
                 {siteConfig.subtitle}
             </p>
         </a>
+        <!-- Home, Archive, About, GitHub 按钮 -->
         <div class="flex">
         {
             NavbarLinks.map(link => (
                 <a href={link.url} target={link.external ? "_blank" : null} class="group md:flex 
                 hidden items-center h-[3.25rem] px-5 rounded-lg hover:bg-[var(--btn-bg-hover)] 
                 active:bg-[var(--btn-bg-active)] active:scale-95 transition-all">
-                    <p class="text-[var(--btn-text)] group-hover:text-[var(--primary)] 
-                    text-[0.875rem] font-bold">{link.name}</p>
+                    <p class="text-[var(--btn-text)] group-hover:text-[var(--primary)] text-sm 
+                    font-bold">{link.name}</p>
                     {link.external && <Icon name="fa6-solid:arrow-up-right-from-square"
-                    class="text-[0.875rem] text-[var(--github-icon)] ml-1 mb-1" />}
+                    class="text-[0.875rem] text-[var(--github-icon)] ml-1 mb-1"/>}
                 </a>
             ))
         }
+        </div>
+        <!-- 剩下的部分 -->
+        <div class="">
+            <!-- 搜索框 -->
+            <!-- <div class="lg:flex hidden items-center bg-[var(--search-bg)] h-12 rounded-lg">
+                <Icon name="material-symbols:search" 
+                class="absolute text-[1.25rem] ml-3 text-[var(--search-icon)] pointer-events-none"/>
+                <input placeholder="Search" class="bg-transparent w-40 active:w-60 focus:w-60 pl-10 outline-0 h-full">
+            </div> -->
+            <div class="lg:flex hidden items-center bg-[var(--search-bg)] h-12 rounded-lg">
+                <Icon name="material-symbols:search"
+                class="absolute text-[var(--search-icon)] text-[1.25rem] ml-3 pointer-events-none"/>
+                <input placeholder="Search" class="bg-transparent w-40 active:w-60 focus:w-60 
+                text-sm h-full pl-10 outline-0 ">
+            </div>
+            <!-- 搜索按钮 -->
         </div>
     </div>
 </div>
