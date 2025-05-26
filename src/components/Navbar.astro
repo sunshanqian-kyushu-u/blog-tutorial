@@ -34,7 +34,7 @@ import { siteConfig, NavbarLinks } from '../config'
         }
         </div>
         <!-- 剩下的部分 -->
-        <div class="">
+        <div class="flex items-center">
             <!-- 搜索框 -->
             <div class="lg:flex hidden items-center bg-[var(--search-bg)] h-12 rounded-lg 
             hover:bg-[var(--search-bg-hover-focus)] focus-within:bg-[var(--search-bg-hover-focus)] 
@@ -45,6 +45,11 @@ import { siteConfig, NavbarLinks } from '../config'
                 h-full pl-10 outline-0 text-[var(--search-text)] text-sm transition-all">
             </div>
             <!-- 搜索按钮 -->
+            <button class="flex items-center justify-center group lg:hidden w-11 h-11 rounded-lg 
+            hover:bg-[var(--btn-bg-hover)] active:scale-95 transition-all">
+                <Icon name="material-symbols:search" class={`md:text-xl text-base 
+                text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
+            </button>
         </div>
     </div>
 </div>
