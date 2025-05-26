@@ -25,4 +25,6 @@
     --search-bg-hover-focus: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.1));
 
     --search-text: light-dark(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.5));
+
+    --float-panel-bg: light-dark(rgba(255, 255, 255, 1), oklch(0.19 0.015 var(--hue)));
 }

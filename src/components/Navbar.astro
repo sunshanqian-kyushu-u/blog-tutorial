@@ -36,7 +36,7 @@ import { siteConfig, NavbarLinks } from '../config'
         <!-- 剩下的部分 -->
         <div class="flex items-center">
             <!-- 搜索框 -->
-            <div class="lg:flex hidden items-center bg-[var(--search-bg)] h-12 rounded-lg 
+            <div class="lg:flex hidden items-center bg-[var(--search-bg)] h-12 mr-2 rounded-lg 
             hover:bg-[var(--search-bg-hover-focus)] focus-within:bg-[var(--search-bg-hover-focus)] 
             transition-all">
                 <Icon name="material-symbols:search"
@@ -50,6 +50,16 @@ import { siteConfig, NavbarLinks } from '../config'
                 <Icon name="material-symbols:search" class={`md:text-xl text-base 
                 text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
             </button>
+            <!-- 调色板按钮 -->
+            <button class="flex items-center justify-center group w-11 h-11 rounded-lg 
+            hover:bg-[var(--btn-bg-hover)] active:scale-95 transition-all">
+                <Icon name="material-symbols:palette-outline" class={`md:text-xl text-base 
+                text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
+            </button>
+            <!-- 调色板悬浮窗 -->
+            <div class="absolute w-20 h-20 bg-[var(--float-panel-bg)] top-[5.25rem]">
+
+            </div>
         </div>
     </div>
 </div>
