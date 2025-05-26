@@ -57,8 +57,15 @@ import { siteConfig, NavbarLinks } from '../config'
                 text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
             </button>
             <!-- 调色板悬浮窗 -->
-            <div class="absolute w-20 h-20 bg-[var(--float-panel-bg)] top-[5.25rem]">
-
+            <div class="absolute bg-[var(--card-bg)] w-80 right-4 px-4 py-4 h-20 top-[5.25rem] 
+            rounded-2xl shadow-xl dark:shadow-none transition-all">
+                <!--第一行容器 -->
+                <div class="flex items-center before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)] gap-2">
+                    <p class="font-bold">Theme Color</p>
+                    <div>
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>
