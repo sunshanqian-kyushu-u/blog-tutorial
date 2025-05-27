@@ -62,16 +62,16 @@ import { siteConfig, NavbarLinks } from '../config'
                 <!--第一行容器 -->
                 <div class="flex items-center before:w-1 before:h-4 before:rounded-md 
                 before:bg-[var(--primary)] gap-2 mb-3">
-                    <p class="font-bold">Theme Color</p>
-                    <div class="flex items-center justify-center bg-[var(--btn-regular-bg)] 
+                    <p class="font-bold select-none">Theme Color</p>
+                    <button class="flex items-center justify-center bg-[var(--btn-regular-bg)] 
                     hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
                     active:scale-95 w-7 h-7 rounded-md">
                         <Icon name="fa6-solid:arrow-rotate-left" 
                         class="text-[var(--btn-content)] text-[0.875rem]"/>
-                    </div>
+                    </button>
                     <!-- hue 显示 -->
                     <p class="flex items-center justify-center bg-[var(--btn-regular-bg)] w-10 h-7 
-                    rounded-md text-[var(--btn-content)] text-sm ml-auto">250</p>
+                    rounded-md text-[var(--btn-content)] text-sm ml-auto select-none">250</p>
                 </div>
                 <!-- 下面的拖动条 -->
                 <input type="range" min="0" max="360" class="slider">
@@ -79,4 +79,15 @@ import { siteConfig, NavbarLinks } from '../config'
         </div>
     </div>
 </div>
+
+<script>
+    /**
+     * 调色板代码
+     * 
+     * 要实现：
+     * 1. 点击调色板按钮开闭调色板悬浮窗
+     * 2. 点击调色板悬浮窗外部则关闭悬浮窗
+     */
+
+</script>
 
