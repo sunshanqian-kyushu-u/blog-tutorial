@@ -57,15 +57,24 @@ import { siteConfig, NavbarLinks } from '../config'
                 text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
             </button>
             <!-- 调色板悬浮窗 -->
-            <div class="absolute bg-[var(--card-bg)] w-80 right-4 px-4 py-4 h-20 top-[5.25rem] 
-            rounded-2xl shadow-xl dark:shadow-none transition-all">
+            <div class="absolute bg-[var(--card-bg)] w-80 right-4 px-4 py-4 top-[5.25rem] 
+            rounded-2xl shadow-xl dark:shadow-none h-24 transition-all">
                 <!--第一行容器 -->
-                <div class="flex items-center before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)] gap-2">
+                <div class="flex items-center before:w-1 before:h-4 before:rounded-md 
+                before:bg-[var(--primary)] gap-2 mb-3">
                     <p class="font-bold">Theme Color</p>
-                    <div>
-                        
+                    <div class="flex items-center justify-center bg-[var(--btn-regular-bg)] 
+                    hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
+                    active:scale-95 w-7 h-7 rounded-md">
+                        <Icon name="fa6-solid:arrow-rotate-left" 
+                        class="text-[var(--btn-content)] text-[0.875rem]"/>
                     </div>
+                    <!-- hue 显示 -->
+                    <p class="flex items-center justify-center bg-[var(--btn-regular-bg)] w-10 h-7 
+                    rounded-md text-[var(--btn-content)] text-sm ml-auto">250</p>
                 </div>
+                <!-- 下面的拖动条 -->
+                <input type="range" min="0" max="360" class="slider">
             </div>
         </div>
     </div>
