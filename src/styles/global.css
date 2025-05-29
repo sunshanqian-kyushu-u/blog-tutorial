@@ -47,6 +47,8 @@
 .slider {
     -webkit-appearance: none;
     width: 100%;
+    /* 能解决滑动条下边界问题 */
+    display: block;
 }
 
 .slider::-webkit-slider-runnable-track {
