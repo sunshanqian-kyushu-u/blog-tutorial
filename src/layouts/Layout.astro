@@ -4,11 +4,12 @@ import "../styles/global.css"
 import Navbar from "../components/Navbar.astro"
 
 let hueCookie = Astro.cookies.get('hue')?.value;
+// console.log(hueCookie);
+
 if (!hueCookie) {
 	hueCookie = '250';
 	Astro.cookies.set('hue', hueCookie, {path : '/', maxAge: 60 * 60 * 24 * 365});
 }
-console.log(hueCookie)
 ---
 
 <html lang="en" style={`--hue: ${hueCookie};`}>

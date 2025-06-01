@@ -140,27 +140,25 @@ import { siteConfig, NavbarLinks } from '../config'
     setClickOutsideToClose("palette", ["palette", "palette-btn"]);
 
     /**
-     * 3. 滑动滑动条让 --hue 的值改变
+     * 3. 滑动滑动条让 hue 的值改变
      */
     slider.addEventListener("input", function (e) {
 
-        const hue = (e.target as HTMLInputElement).value;
+        const slider_hue = (e.target as HTMLInputElement).value;
 
         // 写入 cookie
-        document.cookie = `hue=${hue}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
-        const huetest = document.cookie.split('=')[1];
-        console.log(huetest);
+        document.cookie = `hue=${slider_hue}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
 
-        // 获取新的 hue
-        // const hue = localStorage.getItem("hue");
+        const hue = document.cookie.split('=')[1];
+        // console.log(hue);
 
         // 将新的 hue 写到 html 标签中
-        // document.documentElement.style.setProperty("--hue", hue);
+        document.documentElement.style.setProperty("--hue", hue);
 
         // 刷新一下显示
-        // if (hue_display) {
-        //     hue_display.textContent = hue;
-        // }
+        if (hue_display) {
+            hue_display.textContent = hue;
+        }
     });
 
 </script>
