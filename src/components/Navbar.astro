@@ -66,7 +66,7 @@ import { siteConfig, NavbarLinks } from '../config'
                     <div class="flex items-center before:w-1 before:h-4 before:rounded-md 
                     before:bg-[var(--primary)] gap-2 mb-3">
                         <p class="font-bold select-none">Theme Color</p>
-                        <button class="flex items-center justify-center bg-[var(--btn-regular-bg)] 
+                        <button id="reset-btn" class="flex items-center justify-center bg-[var(--btn-regular-bg)] 
                         hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
                         active:scale-95 w-7 h-7 rounded-md">
                             <Icon name="fa6-solid:arrow-rotate-left" 
@@ -92,6 +92,7 @@ import { siteConfig, NavbarLinks } from '../config'
      * 1. 点击调色板按钮开闭调色板悬浮窗
      * 2. 点击调色板悬浮窗外部则关闭悬浮窗
      * 3. 滑动滑动条让 --hue 的值改变
+     * 4. 初始化功能
      * 
      * 备注：
      * 1. 本来想通过 getComputedStyle(document.documentElement).getPropertyValue("--hue")
@@ -149,6 +150,7 @@ import { siteConfig, NavbarLinks } from '../config'
         // 写入 cookie
         document.cookie = `hue=${slider_hue}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
 
+        // 读取新的 hue
         const hue = document.cookie.split('=')[1];
         // console.log(hue);
 
@@ -161,5 +163,27 @@ import { siteConfig, NavbarLinks } from '../config'
         }
     });
 
-</script>
+    /**
+     * 4. 初始化功能
+     */
+    document.getElementById("reset-btn")?.addEventListener("click", function () {
 
+        // 将默认值写入 cookie
+        document.cookie = `hue=250; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+
+        // 读取新的 hue
+        const hue = document.cookie.split('=')[1];
+
+        // 将新的 hue 写到 html 标签中
+        document.documentElement.style.setProperty("--hue", hue);
+
+        // slider 刷一下
+        slider.value = hue;
+
+        // 刷新一下显示
+        if (hue_display) {
+            hue_display.textContent = hue;
+        }
+    });
+
+</script>
