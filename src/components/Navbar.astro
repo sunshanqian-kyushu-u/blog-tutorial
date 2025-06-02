@@ -108,7 +108,7 @@ import { siteConfig, NavbarLinks } from '../config'
     document.getElementById("palette-btn")?.addEventListener("click", function () {
 
         // 从 cookie 中读取 hue
-        const hue = document.cookie.split('=')[1] || "250";
+        const hue = document.cookie.split('=')[1];
 
         // 如果直接写的话会被理解成“试图对一个可能不存在的对象的属性赋值”
         if (hue_display) {
