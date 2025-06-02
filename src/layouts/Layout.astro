@@ -1,4 +1,15 @@
 ---
+/**
+ * Astro 默认是静态预渲染 (SSG)，即在构建时 (build) 把页面生成成静态 HTML 文件
+ * 这样用户访问时，服务器直接返回静态页面，加载速度快，不需要服务端动态计算
+ * 但是预渲染的页面没有”请求上下文“，也就是没有 request 对象，所以无法访问请求头、cookies 等动态信息
+ * 加了下面这句之后告诉 Astro 不要预渲染这个页面，改成服务端动态渲染 (SSR)
+ * 页面每次请求都会进入服务器运行，拿到当前请求的 request 对象，因此就能访问
+ * Astro.cookies.get()、Astro.request.headers 等动态信息
+ * 但相应的，页面生成时间就会变长
+ */
+export const prerender = false;
+
 import "../styles/global.css"
 
 import Navbar from "../components/Navbar.astro"
