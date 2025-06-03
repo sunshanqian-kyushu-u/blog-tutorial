@@ -1,6 +1,14 @@
 ---
 import { Icon } from 'astro-icon/components'
+
 import { siteConfig, NavbarLinks } from '../config'
+
+let themeCookie = Astro.cookies.get('theme')?.value;
+
+if (!themeCookie) {
+	themeCookie = 'light dark';
+	Astro.cookies.set('theme', themeCookie, {path : '/', maxAge: 60 * 60 * 24 * 365});
+}
 ---
 
 <!-- 外面套一层是因为方便使用 mx-auto -->
@@ -79,6 +87,20 @@ import { siteConfig, NavbarLinks } from '../config'
                     <!-- 下面的拖动条 -->
                     <input id="slider" type="range" min="0" max="360" class="slider">
                 </div>
+                <!-- 亮暗主题 -->
+                <button id="theme-btn" class="flex items-center justify-center group 
+                hover:bg-[var(--btn-bg-hover)] w-11 h-11 rounded-lg active:scale-95 transition-all">
+                    <Icon id="light-icon" name="material-symbols:wb-sunny-outline-rounded" class={`absolute 
+                    ${themeCookie === 'light' ? 'opacity-100' : 'opacity-0'}
+                    md:text-xl text-base text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
+                    <Icon id="dark-icon" name="material-symbols:dark-mode-outline-rounded" class={`absolute 
+                    ${themeCookie === 'dark' ? 'opacity-100' : 'opacity-0'} 
+                    md:text-xl text-base text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
+                    <Icon id="light-dark-icon" name="material-symbols:radio-button-partial-outline" class={`absolute 
+                    ${themeCookie === 'light dark' ? 'opacity-100' : 'opacity-0'} 
+                    md:text-xl text-base text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
+                </button>
+                <!-- 亮暗主题下拉框 -->
             </div>
         </div>
     </div>
@@ -108,7 +130,8 @@ import { siteConfig, NavbarLinks } from '../config'
     document.getElementById("palette-btn")?.addEventListener("click", function () {
 
         // 从 cookie 中读取 hue
-        const hue = document.cookie.split('=')[1];
+        const match = document.cookie.match(/(?:^|;\s*)hue=([^;]*)/);
+        const hue = match![1];
 
         // 如果直接写的话会被理解成“试图对一个可能不存在的对象的属性赋值”
         if (hue_display) {
@@ -151,7 +174,8 @@ import { siteConfig, NavbarLinks } from '../config'
         document.cookie = `hue=${slider_hue}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
 
         // 读取新的 hue
-        const hue = document.cookie.split('=')[1];
+        const match = document.cookie.match(/(?:^|;\s*)hue=([^;]*)/);
+        const hue = match![1];
         // console.log(hue);
 
         // 将新的 hue 写到 html 标签中
@@ -172,7 +196,8 @@ import { siteConfig, NavbarLinks } from '../config'
         document.cookie = `hue=250; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
 
         // 读取新的 hue
-        const hue = document.cookie.split('=')[1];
+        const match = document.cookie.match(/(?:^|;\s*)hue=([^;]*)/);
+        const hue = match![1];
 
         // 将新的 hue 写到 html 标签中
         document.documentElement.style.setProperty("--hue", hue);
@@ -183,6 +208,46 @@ import { siteConfig, NavbarLinks } from '../config'
         // 刷新一下显示
         if (hue_display) {
             hue_display.textContent = hue;
+        }
+    });
+
+    /**
+     * 主题色代码
+     * 
+     * 要实现：
+     * 1. 点击按钮后改变主题
+     */
+    function setTheme (newTheme: string, colorSchemeValue: string, 
+            iconDisappear: HTMLElement, iconAppear: HTMLElement) {
+        document.cookie = `theme=${encodeURIComponent(newTheme)}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+        document.documentElement.style.setProperty("--color-scheme", colorSchemeValue);
+        iconDisappear.classList.replace("opacity-100", "opacity-0");
+        iconAppear.classList.replace("opacity-0", "opacity-100");
+    }
+
+    document.getElementById("theme-btn")?.addEventListener("click", function () {
+
+        const light_icon = document.getElementById("light-icon")!;
+        const dark_icon = document.getElementById("dark-icon")!;
+        const light_dark_icon = document.getElementById("light-dark-icon")!;
+
+        // 读取 theme
+        const match = document.cookie.match(/(?:^|;\s*)theme=([^;]*)/); 
+        const theme = decodeURIComponent(match![1]);
+
+        // 将新的 hue 写到 html 标签中
+        switch (theme) {
+            case 'light':
+                setTheme('dark', 'dark', light_icon, dark_icon);
+                break;
+            case 'dark':
+                setTheme('light dark', 'light dark', dark_icon, light_dark_icon);
+                break;
+            case 'light dark':
+                setTheme('light', 'light', light_dark_icon, light_icon);
+                break;
+            default:
+                break;
         }
     });
 
