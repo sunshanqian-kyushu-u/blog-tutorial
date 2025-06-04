@@ -68,8 +68,9 @@ if (!themeCookie) {
                 </button>
                 <!-- 调色板悬浮窗 -->
                 <!-- 悬浮窗会根据上面的有 relative 的 div 进行定位 -->
-                <div id="palette" class="absolute bg-[var(--card-bg)] w-80 md:right-4 right-0 px-4 py-4 md:top-[5.25rem] top-[4.125rem]
-                rounded-2xl shadow-xl dark:shadow-none md:scale-100 scale-90 float-panel-closed transition-all">
+                <div id="palette" class="absolute bg-[var(--card-bg)] w-80 right-0 px-4 py-4 
+                md:top-[5.25rem] top-[4.125rem] rounded-2xl shadow-xl dark:shadow-none md:scale-100 
+                scale-90 float-panel-closed transition-all">
                     <!--第一行容器 -->
                     <div class="flex items-center before:w-1 before:h-4 before:rounded-md 
                     before:bg-[var(--primary)] gap-2 mb-3">
@@ -90,23 +91,48 @@ if (!themeCookie) {
                 <!-- 亮暗主题 -->
                 <button id="theme-btn" class="flex items-center justify-center group 
                 hover:bg-[var(--btn-bg-hover)] w-11 h-11 rounded-lg active:scale-95 transition-all">
+                    <!-- 亮 -->
                     <Icon id="light-icon" name="material-symbols:wb-sunny-outline-rounded" class={`absolute 
                     ${themeCookie === 'light' ? 'opacity-100' : 'opacity-0'}
                     md:text-xl text-base text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
+                    <!-- 暗 -->
                     <Icon id="dark-icon" name="material-symbols:dark-mode-outline-rounded" class={`absolute 
                     ${themeCookie === 'dark' ? 'opacity-100' : 'opacity-0'} 
                     md:text-xl text-base text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
+                    <!-- 自动 -->
                     <Icon id="light-dark-icon" name="material-symbols:radio-button-partial-outline" class={`absolute 
                     ${themeCookie === 'light dark' ? 'opacity-100' : 'opacity-0'} 
                     md:text-xl text-base text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
                 </button>
                 <!-- 亮暗主题下拉框 -->
-                <div class="absolute bg-[var(--card-bg)] w-40 md:right-4 right-0 px-4 py-4 md:top-[5.25rem] top-[4.125rem]
-                rounded-2xl shadow-xl dark:shadow-none md:scale-100 scale-90 transition-all">
-                    <button class="flex items-center bg-slate-500 h-9 px-3 rounded-lg w-full">
+                <div id="theme-panel" class="absolute bg-[var(--card-bg)] right-0 p-2 md:top-[4.875rem] 
+                max-md:hidden rounded-2xl shadow-xl dark:shadow-none float-panel-closed transition-all">
+                    <!-- 亮 -->
+                    <button id="theme-panel-light-btn" class={`flex items-center 
+                    text-[var(--btn-text)] hover:text-[var(--primary)] active:scale-95
+                    ${themeCookie === 'light' && 'bg-[var(--btn-bg-hover)] text-[var(--primary)]'}
+                    hover:bg-[var(--btn-bg-hover)] h-9 px-3 rounded-lg w-full mb-0.5 transition-all`}>
                         <Icon name="material-symbols:wb-sunny-outline-rounded" 
-                        class="text-[1.25rem] mr-3"/>
+                        class={`text-[1.25rem] mr-3`}/>
                         <p class="">Light</p>
+                    </button>
+                    <!-- 暗 -->
+                    <button id="theme-panel-dark-btn" class={`flex items-center 
+                    text-[var(--btn-text)] hover:text-[var(--primary)] active:scale-95
+                    ${themeCookie === 'dark' && 'bg-[var(--btn-bg-hover)] text-[var(--primary)]'}
+                    hover:bg-[var(--btn-bg-hover)] h-9 px-3 rounded-lg w-full mb-0.5 transition-all`}>
+                        <Icon name="material-symbols:dark-mode-outline-rounded" 
+                        class={`text-[1.25rem] mr-3`}/>
+                        <p class="">Dark</p>
+                    </button>
+                    <!-- 自动 -->
+                    <button id="theme-panel-light-dark-btn" class={`flex items-center 
+                    text-[var(--btn-text)] hover:text-[var(--primary)] active:scale-95
+                    ${themeCookie === 'light dark' && 'bg-[var(--btn-bg-hover)] text-[var(--primary)]'}
+                    hover:bg-[var(--btn-bg-hover)] h-9 px-3 rounded-lg w-full mb-0.5 transition-all`}>
+                        <Icon name="material-symbols:radio-button-partial-outline" 
+                        class={`text-[1.25rem] mr-3`}/>
+                        <p class="">System</p>
                     </button>
                 </div>
             </div>
@@ -198,7 +224,7 @@ if (!themeCookie) {
     /**
      * 4. 初始化功能
      */
-    document.getElementById("reset-btn")?.addEventListener("click", function () {
+    document.getElementById("reset-btn")!.addEventListener("click", function () {
 
         // 将默认值写入 cookie
         document.cookie = `hue=250; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
@@ -224,20 +250,39 @@ if (!themeCookie) {
      * 
      * 要实现：
      * 1. 点击按钮后改变主题
+     * 2. 鼠标悬停按钮后显示悬浮窗，移开后悬浮窗消失
+     * 3. 按钮点击事件
+     */
+
+    /**
+     * 1. 点击按钮后改变主题
      */
     function setTheme (newTheme: string, colorSchemeValue: string, 
-            iconDisappear: HTMLElement, iconAppear: HTMLElement) {
+            iconDisappear_1: HTMLElement, iconDisappear_2: HTMLElement, iconAppear: HTMLElement,
+            bgDisappear_1: HTMLElement, bgDisappear_2: HTMLElement, bgAppear: HTMLElement) {
         document.cookie = `theme=${encodeURIComponent(newTheme)}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
         document.documentElement.style.setProperty("--color-scheme", colorSchemeValue);
-        iconDisappear.classList.replace("opacity-100", "opacity-0");
-        iconAppear.classList.replace("opacity-0", "opacity-100");
+        iconDisappear_1.classList.remove("opacity-100");
+        iconDisappear_1.classList.add("opacity-0");
+        iconDisappear_2.classList.remove("opacity-100");
+        iconDisappear_2.classList.add("opacity-0");
+        iconAppear.classList.remove("opacity-0");
+        iconAppear.classList.add("opacity-100");
+
+        bgDisappear_1.classList.remove("bg-[var(--btn-bg-hover)]", "text-[var(--primary)]");
+        bgDisappear_2.classList.remove("bg-[var(--btn-bg-hover)]", "text-[var(--primary)]");
+        bgAppear.classList.add("bg-[var(--btn-bg-hover)]", "text-[var(--primary)]");
     }
 
-    document.getElementById("theme-btn")?.addEventListener("click", function () {
+    const light_icon = document.getElementById("light-icon")!;
+    const dark_icon = document.getElementById("dark-icon")!;
+    const light_dark_icon = document.getElementById("light-dark-icon")!;
 
-        const light_icon = document.getElementById("light-icon")!;
-        const dark_icon = document.getElementById("dark-icon")!;
-        const light_dark_icon = document.getElementById("light-dark-icon")!;
+    const theme_panel_light_btn = document.getElementById("theme-panel-light-btn")!;
+    const theme_panel_dark_btn = document.getElementById("theme-panel-dark-btn")!;
+    const theme_panel_light_dark_btn = document.getElementById("theme-panel-light-dark-btn")!;
+
+    document.getElementById("theme-btn")!.addEventListener("click", function () {
 
         // 读取 theme
         const match = document.cookie.match(/(?:^|;\s*)theme=([^;]*)/); 
@@ -246,17 +291,64 @@ if (!themeCookie) {
         // 将新的 hue 写到 html 标签中
         switch (theme) {
             case 'light':
-                setTheme('dark', 'dark', light_icon, dark_icon);
+                setTheme('dark', 'dark', light_icon, light_dark_icon, dark_icon, 
+                        theme_panel_light_btn, theme_panel_light_dark_btn, theme_panel_dark_btn);
                 break;
             case 'dark':
-                setTheme('light dark', 'light dark', dark_icon, light_dark_icon);
+                setTheme('light dark', 'light dark', light_icon, dark_icon, light_dark_icon, 
+                        theme_panel_light_btn, theme_panel_dark_btn, theme_panel_light_dark_btn);
                 break;
             case 'light dark':
-                setTheme('light', 'light', light_dark_icon, light_icon);
+                setTheme('light', 'light', dark_icon, light_dark_icon, light_icon, 
+                        theme_panel_dark_btn, theme_panel_light_dark_btn, theme_panel_light_btn);
                 break;
             default:
                 break;
         }
     });
+
+    /**
+     * 2. 鼠标悬停按钮后显示悬浮窗，移开后悬浮窗消失
+     */
+
+    let hideTimeout: ReturnType<typeof setTimeout>;
+
+    function showPanel() {
+        clearTimeout(hideTimeout);
+        document.getElementById("theme-panel")!.classList.remove('float-panel-closed');
+    }
+
+    function hidePanel() {
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(() => {
+            document.getElementById("theme-panel")!.classList.add('float-panel-closed');
+        }, 80);
+    }
+
+    document.getElementById("theme-btn")!.addEventListener("mouseenter", showPanel);
+    document.getElementById("theme-panel")!.addEventListener("mouseenter", showPanel);
+
+    document.getElementById("theme-btn")!.addEventListener("mouseleave", hidePanel);
+    document.getElementById("theme-panel")!.addEventListener("mouseleave", hidePanel);
+
+    /**
+     * 3. 按钮点击事件
+     */
+
+    document.getElementById("theme-panel-light-btn")!.addEventListener("click", function () {
+        setTheme('light', 'light', dark_icon, light_dark_icon, light_icon, 
+                theme_panel_dark_btn, theme_panel_light_dark_btn, theme_panel_light_btn);
+    });
+
+    document.getElementById("theme-panel-dark-btn")!.addEventListener("click", function () {
+        setTheme('dark', 'dark', light_icon, light_dark_icon, dark_icon, 
+                theme_panel_light_btn, theme_panel_light_dark_btn, theme_panel_dark_btn);
+    });
+
+    document.getElementById("theme-panel-light-dark-btn")!.addEventListener("click", function () {
+        setTheme('light dark', 'light dark', light_icon, dark_icon, light_dark_icon, 
+                theme_panel_light_btn, theme_panel_dark_btn, theme_panel_light_dark_btn);
+    });
+    
 
 </script>
