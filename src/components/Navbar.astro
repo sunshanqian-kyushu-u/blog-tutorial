@@ -68,7 +68,7 @@ if (!themeCookie) {
                 </button>
                 <!-- 调色板悬浮窗 -->
                 <!-- 悬浮窗会根据上面的有 relative 的 div 进行定位 -->
-                <div id="palette" class="absolute bg-[var(--card-bg)] w-80 right-0 px-4 py-4 
+                <div id="palette-panel" class="absolute bg-[var(--card-bg)] w-80 right-0 px-4 py-4 
                 md:top-[5.25rem] top-[4.125rem] rounded-2xl shadow-xl dark:shadow-none md:scale-100 
                 scale-90 float-panel-closed transition-all">
                     <!--第一行容器 -->
@@ -151,8 +151,8 @@ if (!themeCookie) {
      * 调色板代码
      * 
      * 要实现：
-     * 1. 点击调色板按钮开闭调色板悬浮窗
-     * 2. 点击调色板悬浮窗外部则关闭悬浮窗
+     * 1. 鼠标移到图标上显示调色板悬浮窗
+     * 2. 点击调色板切换颜色
      * 3. 滑动滑动条让 --hue 的值改变
      * 4. 初始化功能
      * 
@@ -161,12 +161,42 @@ if (!themeCookie) {
      *    直接修改 --hue，但是这个值无法保存到 css 文件中，刷新后就没了
      *    所以还是要本地存储，但是 localStorage.getItem() 会造成闪烁，因此用 cookie 的方法
      */
+
     const slider = document.getElementById("slider") as HTMLInputElement;
     const hue_display = document.getElementById("hue-display");
 
     /**
-     * 1. 开闭调色板悬浮窗
+     * 1. 鼠标移到图标上显示调色板悬浮窗
      */
+    let hideTimeout: ReturnType<typeof setTimeout>;
+
+    function showHidePanel(element: string, action: 'add' | 'remove', className: string, 
+            delay: number=0) {
+        clearTimeout(hideTimeout);
+        if (delay > 0) {
+            hideTimeout = setTimeout(() => {
+                document.getElementById(element)!.classList[action](className)
+            }, delay);
+        } else {
+            document.getElementById(element)!.classList[action](className);
+        }
+    }
+
+    document.getElementById("palette-btn")!.addEventListener("mouseenter", () => {
+        showHidePanel("palette-panel", "remove", "float-panel-closed");
+    });
+    document.getElementById("palette-panel")!.addEventListener("mouseenter", () => {
+        showHidePanel("palette-panel", "remove", "float-panel-closed");
+    });
+
+    document.getElementById("palette-btn")!.addEventListener("mouseleave", () => {
+        showHidePanel("palette-panel", "add", "float-panel-closed", 80);
+    });
+    document.getElementById("palette-panel")!.addEventListener("mouseleave", () => {
+        showHidePanel("palette-panel", "add", "float-panel-closed", 80);
+    });
+
+    /*
     document.getElementById("palette-btn")?.addEventListener("click", function () {
 
         // 从 cookie 中读取 hue
@@ -183,10 +213,12 @@ if (!themeCookie) {
         // 再开闭调色板悬浮窗
         document.getElementById("palette")?.classList.toggle("float-panel-closed");
     });
+    */
 
     /**
      * 2. 点击调色板悬浮窗外部则关闭悬浮窗
      */
+    /*
     function setClickOutsideToClose(panel: string, ignores: string[]) {
         document.addEventListener("click", event => {
             let panelDom = document.getElementById(panel);
@@ -202,6 +234,7 @@ if (!themeCookie) {
         });
     }
     setClickOutsideToClose("palette", ["palette", "palette-btn"]);
+    */
 
     /**
      * 3. 滑动滑动条让 hue 的值改变
@@ -317,25 +350,11 @@ if (!themeCookie) {
      * 2. 鼠标悬停按钮后显示悬浮窗，移开后悬浮窗消失
      */
 
-    let hideTimeout: ReturnType<typeof setTimeout>;
+    // document.getElementById("theme-btn")!.addEventListener("mouseenter", showPanel);
+    // document.getElementById("theme-panel")!.addEventListener("mouseenter", showPanel);
 
-    function showPanel() {
-        clearTimeout(hideTimeout);
-        document.getElementById("theme-panel")!.classList.remove('float-panel-closed');
-    }
-
-    function hidePanel() {
-        clearTimeout(hideTimeout);
-        hideTimeout = setTimeout(() => {
-            document.getElementById("theme-panel")!.classList.add('float-panel-closed');
-        }, 80);
-    }
-
-    document.getElementById("theme-btn")!.addEventListener("mouseenter", showPanel);
-    document.getElementById("theme-panel")!.addEventListener("mouseenter", showPanel);
-
-    document.getElementById("theme-btn")!.addEventListener("mouseleave", hidePanel);
-    document.getElementById("theme-panel")!.addEventListener("mouseleave", hidePanel);
+    // document.getElementById("theme-btn")!.addEventListener("mouseleave", hidePanel);
+    // document.getElementById("theme-panel")!.addEventListener("mouseleave", hidePanel);
 
     /**
      * 3. 按钮点击事件
