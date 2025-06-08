@@ -3,12 +3,7 @@ import { Icon } from 'astro-icon/components'
 
 import { siteConfig, NavbarLinks } from '../config'
 
-let themeCookie = Astro.cookies.get('theme')?.value;
-
-if (!themeCookie) {
-	themeCookie = 'light dark';
-	Astro.cookies.set('theme', themeCookie, {path : '/', maxAge: 60 * 60 * 24 * 365});
-}
+const { hue, theme } = Astro.props;
 ---
 
 <!-- 外面套一层是因为方便使用 mx-auto -->
@@ -69,8 +64,8 @@ if (!themeCookie) {
                 <!-- 调色板悬浮窗 -->
                 <!-- 悬浮窗会根据上面的有 relative 的 div 进行定位 -->
                 <div id="palette-panel" class="absolute bg-[var(--card-bg)] w-80 right-0 px-4 py-4 
-                md:top-[5.25rem] top-[4.125rem] rounded-2xl shadow-xl dark:shadow-none md:scale-100 
-                scale-90 float-panel-closed transition-all">
+                top-[4.875rem] rounded-2xl shadow-xl dark:shadow-none md:scale-100 
+                scale-90 float-panel-closed max-md:hidden transition-all">
                     <!--第一行容器 -->
                     <div class="flex items-center before:w-1 before:h-4 before:rounded-md 
                     before:bg-[var(--primary)] gap-2 mb-3">
@@ -82,35 +77,35 @@ if (!themeCookie) {
                             class="text-[var(--btn-content)] text-[0.875rem]"/>
                         </button>
                         <!-- hue 显示 -->
-                        <p id="hue-display" class="flex items-center justify-center bg-[var(--btn-regular-bg)] w-10 h-7 
-                        rounded-md text-[var(--btn-content)] text-sm ml-auto select-none">250</p>
+                        <p id="display" class="flex items-center justify-center bg-[var(--btn-regular-bg)] w-10 h-7 
+                        rounded-md text-[var(--btn-content)] text-sm ml-auto select-none">{hue}</p>
                     </div>
                     <!-- 下面的拖动条 -->
-                    <input id="slider" type="range" min="0" max="360" class="slider">
+                    <input id="slider" type="range" min="0" max="360" value={hue} class="slider">
                 </div>
                 <!-- 亮暗主题 -->
                 <button id="theme-btn" class="flex items-center justify-center group 
                 hover:bg-[var(--btn-bg-hover)] w-11 h-11 rounded-lg active:scale-95 transition-all">
                     <!-- 亮 -->
                     <Icon id="light-icon" name="material-symbols:wb-sunny-outline-rounded" class={`absolute 
-                    ${themeCookie === 'light' ? 'opacity-100' : 'opacity-0'}
+                    ${theme === 'light' ? 'opacity-100' : 'opacity-0'}
                     md:text-xl text-base text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
                     <!-- 暗 -->
                     <Icon id="dark-icon" name="material-symbols:dark-mode-outline-rounded" class={`absolute 
-                    ${themeCookie === 'dark' ? 'opacity-100' : 'opacity-0'} 
+                    ${theme === 'dark' ? 'opacity-100' : 'opacity-0'} 
                     md:text-xl text-base text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
                     <!-- 自动 -->
                     <Icon id="light-dark-icon" name="material-symbols:radio-button-partial-outline" class={`absolute 
-                    ${themeCookie === 'light dark' ? 'opacity-100' : 'opacity-0'} 
+                    ${theme === 'light dark' ? 'opacity-100' : 'opacity-0'} 
                     md:text-xl text-base text-[var(--btn-text)] group-hover:text-[var(--primary)]`}/>
                 </button>
                 <!-- 亮暗主题下拉框 -->
-                <div id="theme-panel" class="absolute bg-[var(--card-bg)] right-0 p-2 md:top-[4.875rem] 
+                <div id="theme-panel" class="absolute bg-[var(--card-bg)] right-0 p-2 top-[4.875rem] 
                 max-md:hidden rounded-2xl shadow-xl dark:shadow-none float-panel-closed transition-all">
                     <!-- 亮 -->
                     <button id="theme-panel-light-btn" class={`flex items-center 
                     text-[var(--btn-text)] hover:text-[var(--primary)] active:scale-95
-                    ${themeCookie === 'light' && 'bg-[var(--btn-bg-hover)] text-[var(--primary)]'}
+                    ${theme === 'light' && 'bg-[var(--btn-bg-hover)] text-[var(--primary)]'}
                     hover:bg-[var(--btn-bg-hover)] h-9 px-3 rounded-lg w-full mb-0.5 transition-all`}>
                         <Icon name="material-symbols:wb-sunny-outline-rounded" 
                         class={`text-[1.25rem] mr-3`}/>
@@ -119,7 +114,7 @@ if (!themeCookie) {
                     <!-- 暗 -->
                     <button id="theme-panel-dark-btn" class={`flex items-center 
                     text-[var(--btn-text)] hover:text-[var(--primary)] active:scale-95
-                    ${themeCookie === 'dark' && 'bg-[var(--btn-bg-hover)] text-[var(--primary)]'}
+                    ${theme === 'dark' && 'bg-[var(--btn-bg-hover)] text-[var(--primary)]'}
                     hover:bg-[var(--btn-bg-hover)] h-9 px-3 rounded-lg w-full mb-0.5 transition-all`}>
                         <Icon name="material-symbols:dark-mode-outline-rounded" 
                         class={`text-[1.25rem] mr-3`}/>
@@ -128,53 +123,66 @@ if (!themeCookie) {
                     <!-- 自动 -->
                     <button id="theme-panel-light-dark-btn" class={`flex items-center 
                     text-[var(--btn-text)] hover:text-[var(--primary)] active:scale-95
-                    ${themeCookie === 'light dark' && 'bg-[var(--btn-bg-hover)] text-[var(--primary)]'}
+                    ${theme === 'light dark' && 'bg-[var(--btn-bg-hover)] text-[var(--primary)]'}
                     hover:bg-[var(--btn-bg-hover)] h-9 px-3 rounded-lg w-full mb-0.5 transition-all`}>
                         <Icon name="material-symbols:radio-button-partial-outline" 
                         class={`text-[1.25rem] mr-3`}/>
                         <p class="">System</p>
                     </button>
                 </div>
-                <!-- 小窗才出现的按钮 -->
-                <button class="flex items-center justify-center group lg:hidden w-11 h-11 rounded-lg 
+                <!-- 链接按钮 -->
+                <button id="menu-btn" class="flex items-center justify-center group md:hidden w-11 h-11 rounded-lg 
                 hover:bg-[var(--btn-bg-hover)] active:scale-95 transition-all">
                     <Icon name="material-symbols:menu-rounded" class={`md:text-xl text-base 
                     text-[var(--btn-text)] group-hover:text-[var(--primary)]`}></Icon>
                 </button>
+                <!-- 链接按钮悬浮窗 -->
+                <!-- 左右位置需要调整 -->
+                <div id="menu-panel" class="absolute bg-[var(--card-bg)] top-[4.5rem] right-2 rounded-2xl shadow-xl 
+                dark:shadow-none p-2 transition-all md:hidden float-panel-closed">
+                    {
+                    NavbarLinks.map(link => (
+                        <a href={link.url} target={link.external ? "_blank" : null} class="flex 
+                        items-center justify-between text-[var(--btn-text)] hover:text-[var(--primary)] 
+                        active:scale-95 hover:bg-[var(--btn-bg-hover)] rounded-lg pl-3 pr-1 py-1.5 w-[6.5rem]">
+                            <p class="text-sm">{link.name}</p>
+                            {!link.external ? <Icon name="material-symbols:chevron-right-rounded"
+                            class="text-[var(--primary)]"/> : <Icon name="fa6-solid:arrow-up-right-from-square"
+                            class="text-[0.75rem] text-[var(--github-icon)] mr-0.5"/>}
+                        </a>
+                    ))
+                    }
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
+<script>    
     /**
      * 调色板代码
      * 
      * 要实现：
-     * 1. 鼠标移到图标上显示调色板悬浮窗
-     * 2. 点击调色板切换颜色
+     * 1. 鼠标移到调色板按钮上显示调色板悬浮窗
+     * 2. 点击调色板按钮切换颜色
      * 3. 滑动滑动条让 --hue 的值改变
      * 4. 初始化功能
      * 
      * 备注：
-     * 1. 本来想通过 getComputedStyle(document.documentElement).getPropertyValue("--hue")
-     *    直接修改 --hue，但是这个值无法保存到 css 文件中，刷新后就没了
-     *    所以还是要本地存储，但是 localStorage.getItem() 会造成闪烁，因此用 cookie 的方法
+     * 1. localStorage.getItem() 会造成闪烁，因此用 cookie 的方法
      */
-
-    const slider = document.getElementById("slider") as HTMLInputElement;
-    const hue_display = document.getElementById("hue-display");
 
     /**
      * 1. 鼠标移到图标上显示调色板悬浮窗
      */
-    let hideTimeout: ReturnType<typeof setTimeout>;
+
+    type TimeoutRef = { current: ReturnType<typeof setTimeout> | null };
 
     function showHidePanel(element: string, action: 'add' | 'remove', className: string, 
-            delay: number=0) {
-        clearTimeout(hideTimeout);
+            hideTimeoutRef: TimeoutRef, delay: number=0) {
+        clearTimeout(hideTimeoutRef.current!);
         if (delay > 0) {
-            hideTimeout = setTimeout(() => {
+            hideTimeoutRef.current = setTimeout(() => {
                 document.getElementById(element)!.classList[action](className)
             }, delay);
         } else {
@@ -182,64 +190,52 @@ if (!themeCookie) {
         }
     }
 
+    const palettePanelTimeout = { current: null };
+
     document.getElementById("palette-btn")!.addEventListener("mouseenter", () => {
-        showHidePanel("palette-panel", "remove", "float-panel-closed");
+        showHidePanel("palette-panel", "remove", "float-panel-closed", palettePanelTimeout);
     });
     document.getElementById("palette-panel")!.addEventListener("mouseenter", () => {
-        showHidePanel("palette-panel", "remove", "float-panel-closed");
+        showHidePanel("palette-panel", "remove", "float-panel-closed", palettePanelTimeout);
     });
 
     document.getElementById("palette-btn")!.addEventListener("mouseleave", () => {
-        showHidePanel("palette-panel", "add", "float-panel-closed", 80);
+        showHidePanel("palette-panel", "add", "float-panel-closed", palettePanelTimeout, 80);
     });
     document.getElementById("palette-panel")!.addEventListener("mouseleave", () => {
-        showHidePanel("palette-panel", "add", "float-panel-closed", 80);
+        showHidePanel("palette-panel", "add", "float-panel-closed", palettePanelTimeout, 80);
     });
 
-    /*
-    document.getElementById("palette-btn")?.addEventListener("click", function () {
+    /**
+     * 2. 点击调色板切换颜色
+     */
+    document.getElementById("palette-btn")!.addEventListener("click", function () {
+        const slider = document.getElementById("slider") as HTMLInputElement;
+        const display = document.getElementById("display");
 
         // 从 cookie 中读取 hue
         const match = document.cookie.match(/(?:^|;\s*)hue=([^;]*)/);
         const hue = match![1];
 
-        // 如果直接写的话会被理解成“试图对一个可能不存在的对象的属性赋值”
-        if (hue_display) {
-            hue_display.textContent = hue;
-        }
+        // 将 hue 字符串转 int，第二个参数 10 表示是 10 进制数
+        let hueInt = parseInt(hue, 10);
 
-        slider.value = hue;
+        // 计算下一个 60 的倍数，超过 360 回到 0
+        hueInt = (Math.ceil((hueInt + 1) / 60) * 60) % 360;
 
-        // 再开闭调色板悬浮窗
-        document.getElementById("palette")?.classList.toggle("float-panel-closed");
+        // 更新 UI
+        slider.value = `${hueInt}`;
+        display!.textContent = `${hueInt}`;
+        document.documentElement.style.setProperty("--hue", `${hueInt}`);
+
+        // 更新 cookie
+        document.cookie = `hue=${hueInt}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
     });
-    */
-
-    /**
-     * 2. 点击调色板悬浮窗外部则关闭悬浮窗
-     */
-    /*
-    function setClickOutsideToClose(panel: string, ignores: string[]) {
-        document.addEventListener("click", event => {
-            let panelDom = document.getElementById(panel);
-            let tDom = event.target;
-            if (!(tDom instanceof Node)) return;
-            for (let ig of ignores) {
-                let ie = document.getElementById(ig);
-                if (ie == tDom || (ie?.contains(tDom))) {
-                    return;
-                }
-            }
-            panelDom!.classList.add("float-panel-closed");
-        });
-    }
-    setClickOutsideToClose("palette", ["palette", "palette-btn"]);
-    */
 
     /**
      * 3. 滑动滑动条让 hue 的值改变
      */
-    slider.addEventListener("input", function (e) {
+    document.getElementById("slider")!.addEventListener("input", function (e) {
 
         const slider_hue = (e.target as HTMLInputElement).value;
 
@@ -249,15 +245,10 @@ if (!themeCookie) {
         // 读取新的 hue
         const match = document.cookie.match(/(?:^|;\s*)hue=([^;]*)/);
         const hue = match![1];
-        // console.log(hue);
 
-        // 将新的 hue 写到 html 标签中
+        // 更新 UI
+        document.getElementById("display")!.textContent = hue;
         document.documentElement.style.setProperty("--hue", hue);
-
-        // 刷新一下显示
-        if (hue_display) {
-            hue_display.textContent = hue;
-        }
     });
 
     /**
@@ -275,13 +266,9 @@ if (!themeCookie) {
         // 将新的 hue 写到 html 标签中
         document.documentElement.style.setProperty("--hue", hue);
 
-        // slider 刷一下
-        slider.value = hue;
-
-        // 刷新一下显示
-        if (hue_display) {
-            hue_display.textContent = hue;
-        }
+        // 更新 UI
+        (document.getElementById("slider")! as HTMLInputElement).value = hue;
+        document.getElementById("display")!.textContent = hue;
     });
 
     /**
@@ -349,17 +336,24 @@ if (!themeCookie) {
     /**
      * 2. 鼠标悬停按钮后显示悬浮窗，移开后悬浮窗消失
      */
+    const themePanelTimeout = { current: null };
 
-    // document.getElementById("theme-btn")!.addEventListener("mouseenter", showPanel);
-    // document.getElementById("theme-panel")!.addEventListener("mouseenter", showPanel);
-
-    // document.getElementById("theme-btn")!.addEventListener("mouseleave", hidePanel);
-    // document.getElementById("theme-panel")!.addEventListener("mouseleave", hidePanel);
+    document.getElementById("theme-btn")!.addEventListener("mouseenter", () => {
+        showHidePanel("theme-panel", "remove", "float-panel-closed", themePanelTimeout);
+    });
+    document.getElementById("theme-panel")!.addEventListener("mouseenter", () => {
+        showHidePanel("theme-panel", "remove", "float-panel-closed", themePanelTimeout);
+    });
+    document.getElementById("theme-btn")!.addEventListener("mouseleave", () => {
+        showHidePanel("theme-panel", "add", "float-panel-closed", themePanelTimeout, 80);
+    });
+    document.getElementById("theme-panel")!.addEventListener("mouseleave", () => {
+        showHidePanel("theme-panel", "add", "float-panel-closed", themePanelTimeout, 80);
+    });
 
     /**
      * 3. 按钮点击事件
      */
-
     document.getElementById("theme-panel-light-btn")!.addEventListener("click", function () {
         setTheme('light', 'light', dark_icon, light_dark_icon, light_icon, 
                 theme_panel_dark_btn, theme_panel_light_dark_btn, theme_panel_light_btn);
@@ -374,6 +368,38 @@ if (!themeCookie) {
         setTheme('light dark', 'light dark', light_icon, dark_icon, light_dark_icon, 
                 theme_panel_light_btn, theme_panel_dark_btn, theme_panel_light_dark_btn);
     });
-    
+    /**
+     * menu 代码
+     * 
+     * 要实现：
+     * 1. 点击按钮后打开、关闭链接框
+     * 2. 点击外部关闭链接框
+     */
+
+    /**
+     * 1. 点击按钮后打开、关闭链接框
+     */
+    document.getElementById("menu-btn")!.addEventListener("click", function () {
+        document.getElementById("menu-panel")!.classList.toggle("float-panel-closed");
+    });
+
+    /**
+     * 2. 点击调色板悬浮窗外部则关闭悬浮窗
+     */
+    function setClickOutsideToClose(panel: string, ignores: string[]) {
+        document.addEventListener("click", event => {
+            let panelDom = document.getElementById(panel);
+            let tDom = event.target;
+            if (!(tDom instanceof Node)) return;
+            for (let ig of ignores) {
+                let ie = document.getElementById(ig);
+                if (ie == tDom || (ie?.contains(tDom))) {
+                    return;
+                }
+            }
+            panelDom!.classList.add("float-panel-closed");
+        });
+    }
+    setClickOutsideToClose("menu-panel", ["menu-btn", "menu-panel"]);
 
 </script>

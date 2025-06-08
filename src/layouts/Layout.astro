@@ -3,20 +3,20 @@ import "../styles/global.css"
 
 import Navbar from "../components/Navbar.astro"
 
-let hueCookie = Astro.cookies.get('hue')?.value;
-if (!hueCookie) {
-	hueCookie = '250';
-	Astro.cookies.set('hue', hueCookie, {path : '/', maxAge: 60 * 60 * 24 * 365});
+let hue = Astro.cookies.get('hue')?.value;
+if (!hue) {
+	hue = '250';
+	Astro.cookies.set('hue', hue, {path : '/', maxAge: 60 * 60 * 24 * 365});
 }
 
-let themeCookie = Astro.cookies.get('theme')?.value;
-if (!themeCookie) {
-	themeCookie = 'light dark';
-	Astro.cookies.set('theme', themeCookie, {path : '/', maxAge: 60 * 60 * 24 * 365});
+let theme = Astro.cookies.get('theme')?.value;
+if (!theme) {
+	theme = 'light dark';
+	Astro.cookies.set('theme', theme, {path : '/', maxAge: 60 * 60 * 24 * 365});
 }
 ---
 
-<html lang="en" style={`--hue: ${hueCookie}; --color-scheme: ${themeCookie}`}>
+<html lang="en" style={`--hue: ${hue}; --color-scheme: ${theme}`}>
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -26,7 +26,7 @@ if (!themeCookie) {
 	</head>
 	<body>
 		<div class="bg-[var(--page-bg)] min-h-[200rem]">
-			<Navbar></Navbar>
+			<Navbar hue={hue} theme={theme}></Navbar>
 		</div>
 	</body>
 </html>
