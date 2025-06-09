@@ -16,15 +16,44 @@ if (!theme) {
 }
 ---
 
-<html lang="en" style={`--hue: ${hue}; --color-scheme: ${theme}`}>
+<html class="invisible" lang="en" style={`--hue: ${hue}; --color-scheme: ${theme}`}
+data-overlayscrollbars-initialize>
 	<head>
+		<script>
+			import 'overlayscrollbars/overlayscrollbars.css';
+			import { OverlayScrollbars } from 'overlayscrollbars';
+			import "../styles/scrollbar.css";
+
+			OverlayScrollbars(document.body, {
+				scrollbars: {
+					theme: 'scrollbar-base scrollbar-auto py-1', 
+					autoHide: 'move',
+					autoHideDelay: 500,
+					autoHideSuspend: false,
+				},
+			});
+
+			// 代码块滚动条的设置
+			document.querySelectorAll('pre').forEach((ele) => {
+				OverlayScrollbars(ele, {
+					scrollbars: {
+						theme: 'scrollbar-base scrollbar-dark px-2',
+						autoHide: 'leave',
+						autoHideDelay: 500,
+						autoHideSuspend: false,
+					}
+				});
+			});
+
+			document.documentElement.classList.remove('invisible');
+		</script>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro</title>
 	</head>
-	<body>
+	<body data-overlayscrollbars-initialize>
 		<div class="bg-[var(--page-bg)] min-h-[200rem]">
 			<Navbar hue={hue} theme={theme}></Navbar>
 		</div>
