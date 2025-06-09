@@ -1,7 +1,9 @@
 ---
-import "../styles/global.css"
+import "../styles/global.css";
 
-import Navbar from "../components/Navbar.astro"
+import Navbar from "../components/Navbar.astro";
+
+import Banner from "../components/Banner.astro";
 
 let hue = Astro.cookies.get('hue')?.value;
 if (!hue) {
@@ -56,6 +58,7 @@ data-overlayscrollbars-initialize>
 	<body data-overlayscrollbars-initialize>
 		<div class="bg-[var(--page-bg)] min-h-[200rem]">
 			<Navbar hue={hue} theme={theme}></Navbar>
+
 		</div>
 	</body>
 </html>
