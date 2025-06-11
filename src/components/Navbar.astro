@@ -8,7 +8,7 @@ const { hue, theme } = Astro.props;
 
 <!-- 外面套一层是因为方便使用 mx-auto -->
 <!-- 不然的话要使用 md:mx-4，与 mx-auto 冲突 -->
-<div class="max-w-[75rem] md:px-4 mx-auto top-0 sticky">
+<div class="max-w-[75rem] md:px-4 mx-auto top-0 sticky z-20">
     <!-- 下面这个 div 是为了给悬浮窗定位用 -->
     <div class="relative">
         <div class="flex items-center bg-[var(--card-bg)] md:h-[4.5rem] h-16 md:px-4 px-3.5 

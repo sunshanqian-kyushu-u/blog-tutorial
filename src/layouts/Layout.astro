@@ -55,10 +55,8 @@ data-overlayscrollbars-initialize>
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro</title>
 	</head>
-	<body data-overlayscrollbars-initialize>
-		<div class="bg-[var(--page-bg)] min-h-[200rem]">
-			<Navbar hue={hue} theme={theme}></Navbar>
-
-		</div>
+	<body class="relative bg-[var(--page-bg)] min-h-[200rem]" data-overlayscrollbars-initialize>
+		<Navbar hue={hue} theme={theme}></Navbar>
+		<Banner></Banner>
 	</body>
 </html>
