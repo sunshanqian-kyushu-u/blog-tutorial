@@ -1,15 +1,11 @@
 ---
 import { Image } from 'astro:assets';
-import BannerImage from "../assets/demo-banner.png";
+// import BannerImage from "../assets/demo-banner.png";
+import BannerImage from "../assets/demo-banner-resize.png";
 ---
 
-<!-- <div class="absolute top-0 w-full h-[18.75rem] lg:h-[28.75rem] z-10 transition-all">
-    <Image src={BannerImage} alt="" class="w-full h-full object-cover object-center"/>
-</div> -->
-<div class="relative overflow-hidden transition-all duration-500 h-[200px] lg:h-[400px]" id="banner">
-  <Image
-    src={BannerImage} alt=""
-    class="absolute top-1/2 left-1/2 w-full h-auto min-h-full -translate-x-1/2 -translate-y-1/2"
-  />
+<!-- 原图大小 1344px * 896px -->
+<!-- 裁剪后大小 1270px * 896px -->
+<div class="absolute top-0 w-full h-[456px] lg:h-[716px] z-10 transition-all">
+    <Image src={BannerImage} alt="" class="w-full h-full xxl:object-cover object-none"/>
 </div>
-
