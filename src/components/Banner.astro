@@ -1,11 +1,13 @@
 ---
 import { Image } from 'astro:assets';
 // import BannerImage from "../assets/demo-banner.png";
-import BannerImage from "../assets/demo-banner-resize.png";
+// import BannerImage from "../assets/demo-banner-resize.png";
+import BannerImage from "../assets/demo-banner-safari.png";
 ---
 
 <!-- 原图大小 1344px * 896px -->
 <!-- 裁剪后大小 1270px * 896px -->
+<!-- 为了匹配 safari 大小 1192px * 894px -->
 <div class="absolute top-0 w-full h-[456px] lg:h-[716px] z-10 transition-all">
     <Image src={BannerImage} alt="" class="w-full h-full xxl:object-cover object-none"/>
 </div>
