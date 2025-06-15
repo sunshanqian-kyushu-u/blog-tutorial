@@ -1,0 +1,14 @@
+---
+import { Icon } from "astro-icon/components";
+import ProfileImage from "../assets/demo-avatar.png";
+import { Image } from 'astro:assets';
+
+---
+
+<div>
+    <a href="/about/" class="flex items-center justify-center">
+        <Icon name="fa6-regular:address-card" class={`text-white`}></Icon>
+        <Image src={ProfileImage} alt="" class={`opacity-50`}/>
+    </a>
+
+</div>

@@ -1,5 +1,7 @@
 ---
 import { siteConfig } from "../config"
+
+import Profile from "./Profile.astro"
 ---
 
 <div class="absolute max-w-[75rem] inset-x-0 w-full mx-auto md:px-4 bg-green-300 lg:top-[574px] top-[414px] 
@@ -15,7 +17,7 @@ z-30 transition-all">
         </div>
         <!-- Sidebar -->
         <div class="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-start-2 lg:row-span-1 h-[300px] bg-blue-600">
-            Sidebar
+            <Profile></Profile>
         </div>
         <!-- main content -->
         <div class="lg:col-start-2 lg:col-span-1 lg:row-start-2 lg:row-span-1 
