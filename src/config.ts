@@ -1,9 +1,11 @@
 type SiteConfig = {
     subtitle: string
+    bannerlink: string
 }
 
 export const siteConfig: SiteConfig = {
     subtitle: "Tutorial", 
+    bannerlink: "https://www.pixiv.net/artworks/111024784",
 }
 
 type Link = {

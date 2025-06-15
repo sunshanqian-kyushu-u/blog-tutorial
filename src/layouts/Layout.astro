@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar.astro";
 
 import Banner from "../components/Banner.astro";
 
+import Main from "../components/Main.astro";
+
 let hue = Astro.cookies.get('hue')?.value;
 if (!hue) {
 	hue = '250';
@@ -58,5 +60,6 @@ data-overlayscrollbars-initialize>
 	<body class="relative bg-[var(--page-bg)] min-h-[200rem]" data-overlayscrollbars-initialize>
 		<Navbar hue={hue} theme={theme}></Navbar>
 		<Banner></Banner>
+		<Main></Main>
 	</body>
 </html>
