@@ -3,11 +3,10 @@ import { Icon } from "astro-icon/components";
 import ProfileImage from "../assets/demo-avatar.png";
 import { Image } from 'astro:assets';
 import { siteConfig } from "../config";
-
+import { ProfileLinks } from "../config";
 ---
 
-<!-- 补一个 mb-4 -->
-<div class="rounded-2xl bg-[var(--card-bg)] p-3">
+<div class="rounded-2xl bg-[var(--card-bg)] p-3 mb-4">
     <!-- absolute z-40 才能让 Icon 显示在 Image 之上 -->
     <!-- 另外 Image 会自动缩放图像，当我放入 banner 时，会按照宽度缩放成合适的大小 -->
     <a href="/about/" class="flex items-center justify-center group mb-2.5">
@@ -20,10 +19,25 @@ import { siteConfig } from "../config";
 
     <!-- 照片外的部分 -->
     <div>
+        <!-- 名字 -->
         <p class="font-bold text-lg text-center text-neutral-900 dark:text-neutral-50 mb-1">
             {siteConfig.subtitle}
         </p>
         <!-- 横杠 -->
         <div class="h-1 w-5 bg-[var(--primary)] mx-auto rounded-full mb-2"></div>
+        <!-- 介绍 -->
+        <div class="text-base text-center text-neutral-400 mb-2.5">{siteConfig.intro}</div>
+        <!-- 外链 -->
+        <div class="flex justify-center gap-2 mb-1">
+        {
+        ProfileLinks.map(link => (
+            <a href={link.url} target="_blank" class="flex items-center justify-center 
+            bg-[var(--btn-regular-bg)] h-10 w-10 hover:bg-[var(--btn-regular-bg-hover)]
+            text-[var(--btn-content)] rounded-lg active:scale-90">
+                <Icon name={link.icon} class="text-[1.5rem]"></Icon>
+            </a>
+        ))
+        }
+        </div>
     </div>
 </div>
