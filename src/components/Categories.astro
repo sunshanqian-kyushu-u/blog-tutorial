@@ -1,12 +1,71 @@
 ---
+import { getCollection } from 'astro:content';
 
+const blogs = await getCollection('blog');
+
+// 1. 先按时间从新到旧排序
+// 如果结果为正，b 会排在 a 前面 => 降序
+blogs.sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+
+// 2. 分类统计
+// 创建一个 Map 来分组统计
+//                         键：分类名称         值：计数+文章数组
+const categoryMap = new Map<string, { count: number; blogArray: typeof blogs }>();
+
+// 3. 遍历 blogs
+for (const blog of blogs) {
+    const category = blog.data.category;
+
+    if (!categoryMap.has(category)) {
+        // 新条目
+        categoryMap.set(category, {count : 1, blogArray: [blog]});
+    } else {
+        // 增加
+        const entry = categoryMap.get(category)!;
+        entry.count += 1;
+        entry.blogArray.push(blog);
+    }
+}
+
+// 4. 把 Map 转换成数组
+const grouped = Array.from(categoryMap.entries()).map(([category, { count, blogArray }]) => ({
+    category,
+    count,
+    blogArray,
+}));
+// grouped 的结构示例：
+// [
+//     { category: 'aaa', count: 2, posts: [...] },
+//     { category: 'bbb', count: 3, posts: [...] },
+// ]
 ---
 
-<div class="rounded-2xl bg-[var(--card-bg)] p-3 mb-4">
+<div class="rounded-2xl bg-[var(--card-bg)] p-4 mb-4">
     <!-- 第一行容器 -->
-    <div class="flex before:w-1 before:h-4 before:bg-[var(--primary)] before:rounded-md gap-2 
-    before:mt-1">
+    <div class="flex gap-3 pt-0.5 pb-2
+    before:w-1 before:h-4 before:bg-[var(--primary)] before:rounded-md before:mt-1">
         <p class="font-bold text-base">Categories</p>
     </div>
     <!-- 实际内容 -->
+    {
+        grouped.map(({ category, count }) => (
+            <a href={`/category/${category}`}>
+                <div class="flex items-center justify-between h-10 pl-2 hover:pl-3.5 rounded-lg
+                hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] 
+                group transition-all">
+                    <p class="text-neutral-700 dark:text-neutral-300
+                    group-hover:text-[var(--primary)] dark:group-hover:text-[var(--primary)]">
+                        {category}
+                    </p>
+                    <p class="flex items-center justify-center font-bold text-sm
+                    w-8 h-6 rounded-md mr-2 text-[var(--primary)]
+                    bg-[oklch(0.95_0.025_var(--hue))] dark:bg-[var(--primary)] 
+                    group-hover:bg-[var(--card-bg)]
+                    group-hover:text-[var(--primary)] group-dark:hover:text-[var(--primary)]">
+                        {count}
+                    </p>
+                </div>
+            </a>
+        ))
+    }
 </div>

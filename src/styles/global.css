@@ -42,6 +42,9 @@
     oklch(0.70 0.10 60), oklch(0.70 0.10 90), oklch(0.70 0.10 120), oklch(0.70 0.10 150), 
     oklch(0.70 0.10 180), oklch(0.70 0.10 210), oklch(0.70 0.10 240), oklch(0.70 0.10 270), 
     oklch(0.70 0.10 300), oklch(0.70 0.10 330), oklch(0.70 0.10 360));
+
+    --btn-plain-bg-hover: light-dark(oklch(0.95 0.025 var(--hue)), oklch(0.30 0.035 var(--hue)));
+    --btn-plain-bg-active: light-dark(oklch(0.98 0.01 var(--hue))， oklch(0.27 0.025 var(--hue)));
 }
 
 .slider {
