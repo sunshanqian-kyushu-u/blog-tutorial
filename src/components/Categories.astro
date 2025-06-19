@@ -50,10 +50,10 @@ const groupedCategories = Array.from(categoryMap.entries()).map(([category, { co
     {
         groupedCategories.map(({ category, count }) => (
             <a href={`/category/${category}`}>
-                <div class="flex items-center justify-between h-10 pl-2 hover:pl-3.5 rounded-lg
+                <div class="flex items-center justify-between h-10 pl-2 hover:pl-4 rounded-lg
                 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] 
                 group transition-all">
-                    <p class="text-neutral-700 dark:text-neutral-300
+                    <p class="text-neutral-700 dark:text-neutral-300 text-sm
                     group-hover:text-[var(--primary)] dark:group-hover:text-[var(--primary)]">
                         {category}
                     </p>
