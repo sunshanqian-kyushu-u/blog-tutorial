@@ -18,7 +18,7 @@ for (const blog of blogs) {
 
     if (!categoryMap.has(category)) {
         // 新条目
-        categoryMap.set(category, {count : 1, blogArray: [blog]});
+        categoryMap.set(category, { count : 1, blogArray: [blog] });
     } else {
         // 增加
         const entry = categoryMap.get(category)!;
@@ -28,7 +28,7 @@ for (const blog of blogs) {
 }
 
 // 4. 把 Map 转换成数组
-const grouped = Array.from(categoryMap.entries()).map(([category, { count, blogArray }]) => ({
+const groupedCategories = Array.from(categoryMap.entries()).map(([category, { count, blogArray }]) => ({
     category,
     count,
     blogArray,
@@ -48,7 +48,7 @@ const grouped = Array.from(categoryMap.entries()).map(([category, { count, blogA
     </div>
     <!-- 实际内容 -->
     {
-        grouped.map(({ category, count }) => (
+        groupedCategories.map(({ category, count }) => (
             <a href={`/category/${category}`}>
                 <div class="flex items-center justify-between h-10 pl-2 hover:pl-3.5 rounded-lg
                 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] 
