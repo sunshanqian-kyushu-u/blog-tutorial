@@ -60,6 +60,8 @@ data-overlayscrollbars-initialize>
 	<body class="relative bg-[var(--page-bg)] min-h-[200rem]" data-overlayscrollbars-initialize>
 		<Navbar hue={hue} theme={theme}></Navbar>
 		<Banner></Banner>
-		<Main></Main>
+		<Main>
+			<slot></slot>
+		</Main>
 	</body>
 </html>
