@@ -1,38 +1,83 @@
 ---
+import { getCollection } from 'astro:content';
 
+import { Icon } from 'astro-icon/components';
+
+let blogs = await getCollection('blog');
+
+blogs = blogs.filter((blog) => blog.data.draft !== true);
+
+blogs.sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+
+const blogSummaries = blogs.map((blog) => {
+    const { title, published, category, tags, description } = blog.data;
+
+    return {
+        slug: blog.slug, 
+        title, 
+        published, 
+        category, 
+        tags, 
+        description, 
+    };
+});
+// blogSummaries 输出示例
+// [
+//     {
+//         "slug": "markdown-extended", 
+//         "title": ...
+//         ...
+//         "tags": {
+//             "Demo", 
+//             "Example",
+//             ...
+//         },
+//         "description": "..."
+//     },
+//     {
+//         ...
+//     }
+// ]
 ---
 
-<div class="bg-[var(--card-bg)] rounded-2xl w-full h-20 px-8 py-6">
-    <a
-                       class="group btn-plain !block h-10 w-full rounded-lg hover:text-[initial]">
-                        <div class="flex flex-row justify-start items-center h-full">
-                            <!-- date -->
-                            <div class="w-[15%] md:w-[10%] transition text-sm text-right text-50">
-                                2025/01/11
-                            </div>
-                            <!-- dot and line -->
-                            <div class="w-[15%] md:w-[10%] relative dash-line h-full flex items-center">
-                                <div class="transition-all mx-auto w-1 h-1 rounded group-hover:h-5
-                                bg-[oklch(0.5_0.05_var(--hue))] group-hover:bg-[var(--primary)]
-                                outline outline-4 z-50
-                                outline-[var(--card-bg)]
-                                group-hover:outline-[var(--btn-plain-bg-hover)]
-                                group-active:outline-[var(--btn-plain-bg-active)]
-                                "
-                                ></div>
-                            </div>
-                            <!-- post title -->
-                            <div class="w-[70%] md:max-w-[65%] md:w-[65%] text-left font-bold
-                                group-hover:translate-x-1 transition-all group-hover:text-[var(--primary)]
-                                text-75 pr-8 whitespace-nowrap overflow-ellipsis overflow-hidden"
-                            >
-                                    Titledddddddd
-                            </div>
-                            <!-- tag list -->
-                            <div class="hidden md:block md:w-[15%] text-left text-sm transition
-                            whitespace-nowrap overflow-ellipsis overflow-hidden
-                            text-30"
-                            >aaa/bbb/ccc</div>
-                        </div>
-                    </a>
-</div>
+<!-- 对应了 PostCard.astro -->
+{
+    blogSummaries.map((blog) => (
+        <div class="flex items-center justify-between bg-[var(--card-bg)] rounded-2xl w-full px-3 py-3 mb-4">
+            <div class="bg-slate-400">
+
+                <a href={`posts/${blog.slug}`} class="flex items-center">
+                    { blog.title }
+                    <Icon name="material-symbols:chevron-right-rounded"/>
+                </a>
+
+                <div class="flex items-center">
+                    <Icon name="material-symbols:calendar-today-outline-rounded"/>
+                    <p class="">
+                        { blog.published.toISOString().slice(0, 10) }
+                    </p>
+                    <Icon name="material-symbols:book-2-outline-rounded"/>
+                    <p>
+                        { blog.category }
+                    </p>
+                    <Icon name="material-symbols:tag-rounded"/>
+                    <p>
+                        { blog.tags }
+                    </p>
+                </div>
+
+                <p>
+                    { blog.description }
+                </p>
+
+            </div>
+            <a href={`posts/${blog.slug}`} class="flex items-center justify-center 
+            w-[3.25rem] h-44 rounded-xl text-[var(--primary)] bg-[var(--btn-regular-bg)] 
+            hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)] 
+            active:scale-95 transition-all">
+                <Icon name="material-symbols:chevron-right-rounded" class={` 
+                w-9 h-9`}/>
+            </a>
+        </div>
+    ))
+}
