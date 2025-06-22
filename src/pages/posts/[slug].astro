@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+
+import Layout from "../../layouts/Layout.astro"
+
+import { getEntry, render } from 'astro:content';
+
+let blogs = await getCollection('blog');
+
+blogs = blogs.filter((blog) => blog.data.draft !== true);
+
+export async function getStaticPaths() {
+
+    return blogs.map((blog) => (
+        {
+            // [] 中的名字应该与下面的 params 的名字一致
+            params: { slug: blog.slug }
+        }
+    ))
+}
+
+// 然后可以通过这个方法将当前页面的 slug 用于后续操作如匹配 md 文件
+const { slug } = Astro.params;
+
+// 如下面这一行所示
+const post = blogs.find((b) => b.slug === slug);
+
+// 下面这个函数接收内容集合名(字符串)，如 'blogs'，和其中的一个 slug（就是上面的 slug）
+// const post = await getEntry('blog', slug);
+
+// 下面这个函数接收一个内容条目对象
+const { Content } = await render(post!);
+---
+
+<Layout>
+    <div class="rounded-2xl bg-[var(--card-bg)] p-4">
+        <Content/>
+    </div>
+</Layout>
