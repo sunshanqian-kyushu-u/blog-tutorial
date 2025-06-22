@@ -5,19 +5,19 @@ import Categories from "./Categories.astro"
 import Tags from "./Tags.astro"
 ---
 
-<div class="absolute max-w-[75rem] inset-x-0 w-full mx-auto md:px-4 bg-green-300 lg:top-[574px] top-[414px] 
+<div class="absolute max-w-[75rem] inset-x-0 w-full mx-auto md:px-4 lg:top-[514px] top-[364px] 
 z-30 transition-all">
     <!-- col 是列，row 是行 -->
     <!-- lg 的时候是两列两行 -->
     <!-- 小于 lg 的时候是一列两行 -->
-    <div class="grid lg:grid-cols-[17.5rem_auto] grid-cols-1 grid-rows-[50px_auto] bg-yellow-400">
+    <div class="grid lg:grid-cols-[17.5rem_auto] grid-cols-1 grid-rows-[50px_auto]">
         <!-- Banner 出处 -->
-        <div class="flex items-center justify-end bg-red-400 lg:col-start-2 lg:col-span-1 lg:row-start-1 lg:row-span-1 
+        <div class="flex items-center justify-end lg:col-start-2 lg:col-span-1 lg:row-start-1 lg:row-span-1 
         col-start-1 col-span-1 row-start-1 row-span-1">
             <BannerCredit></BannerCredit>
         </div>
         <!-- Sidebar -->
-        <div class="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-start-2 lg:row-span-1 bg-blue-600">
+        <div class="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-start-2 lg:row-span-1">
             <Profile></Profile>
             <Categories></Categories>
             <Tags></Tags>

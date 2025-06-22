@@ -3,6 +3,12 @@ import { getCollection } from 'astro:content';
 
 import { Icon } from 'astro-icon/components';
 
+// 计算字数
+const countWords = (text: string) => text.trim().split(/\s+/).length;
+
+// 按 200 wpm 计算阅读时间
+const getReadingTime = (wordCount: number) => Math.ceil(wordCount / 200);
+
 let blogs = await getCollection('blog');
 
 blogs = blogs.filter((blog) => blog.data.draft !== true);
@@ -12,6 +18,9 @@ blogs.sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
 const blogSummaries = blogs.map((blog) => {
     const { title, published, category, tags, description } = blog.data;
 
+    const wordCount = countWords(blog.body);
+    const minutesRead = getReadingTime(wordCount);
+
     return {
         slug: blog.slug, 
         title, 
@@ -19,6 +28,8 @@ const blogSummaries = blogs.map((blog) => {
         category, 
         tags, 
         description, 
+        wordCount, 
+        minutesRead, 
     };
 });
 // blogSummaries 输出示例
@@ -32,7 +43,8 @@ const blogSummaries = blogs.map((blog) => {
 //             "Example",
 //             ...
 //         },
-//         "description": "..."
+//         "description": "...",
+//         ...
 //     },
 //     {
 //         ...
@@ -41,43 +53,154 @@ const blogSummaries = blogs.map((blog) => {
 ---
 
 <!-- 对应了 PostCard.astro -->
-{
-    blogSummaries.map((blog) => (
-        <div class="flex items-center justify-between bg-[var(--card-bg)] rounded-2xl w-full px-3 py-3 mb-4">
-            <div class="bg-slate-400">
 
-                <a href={`posts/${blog.slug}`} class="flex items-center">
-                    { blog.title }
-                    <Icon name="material-symbols:chevron-right-rounded"/>
-                </a>
+<!-- 大屏时显示多张卡片 -->
+<div class="hidden md:block">
+    {
+        blogSummaries.map((blog) => (
+            // 一张卡片
+            <div class="flex items-center justify-between bg-[var(--card-bg)] 
+            rounded-2xl w-full px-3 py-3 mb-4">
+                {/* 左半边内容 */}
+                <div>
+                    {/* 第一行标题链接，字体大小可以通过 scale 调整 */}
+                    <a href={`posts/${blog.slug}`} class="inline-flex items-center group pl-1
+                    before:w-1 before:h-5 before:mr-5 before:rounded-md before:bg-[var(--primary)]
+                    pb-3">
+                        <p class="text-2xl scale-[1.03] font-bold group-hover:text-[var(--primary)]
+                        transition-all">
+                            { blog.title }
+                        </p>
+                        <Icon name="material-symbols:chevron-right-rounded" class={`w-7 h-7 
+                        text-[var(--primary)] ml-0 group-hover:ml-0.5 
+                        invisible group-hover:visible duration-[50ms]`}/>
+                    </a>
+                    {/* 第二行 published/category/tag */}
+                    <div class="flex items-center pl-6 pb-3">
+                        {/* published */}
+                        <div class="flex items-center justify-center w-8 h-8 rounded-lg 
+                        bg-[var(--btn-regular-bg)] mr-2">
+                            <Icon name="material-symbols:calendar-today-outline-rounded" 
+                            class={`w-5 h-5 text-[var(--primary)]`}/>
+                        </div>
+                        <p class="text-sm mr-4">
+                            { blog.published.toISOString().slice(0, 10) }
+                        </p>
+                        {/* category */}
+                        <div class="flex items-center justify-center w-8 h-8 rounded-lg 
+                        bg-[var(--btn-regular-bg)] mr-2">
+                            <Icon name="material-symbols:book-2-outline-rounded" 
+                            class={`w-5 h-5 text-[var(--primary)]`}/>
+                        </div>
+                        <div class="flex items-center justify-center group w-fit px-1 h-8 mr-4
+                        hover:bg-[var(--btn-regular-bg)]">
+                            <a href={`category/${blog.category}`} class="text-sm">
+                                { blog.category }
+                            </a>
+                        </div>
+                        {/* tag */}
+                        <div class="flex items-center justify-center w-8 h-8 rounded-lg 
+                        bg-[var(--btn-regular-bg)] mr-2">
+                            <Icon name="material-symbols:tag-rounded" 
+                            class={`w-5 h-5 text-[var(--primary)]`}/>
+                        </div>
+                        {
+                            blog.tags.map((tag, index) => (
+                                <div class="flex">
+                                    <a href={`tag/${tag}`} class="text-sm mr-2">
+                                        { tag }
+                                    </a>
+                                    {index < (blog.tags.length - 1) && <p class="text-sm mr-2">/</p>}
+                                </div>
+                            ))
+                        }
+                    </div>
+                    {/* 第三行 description */}
+                    <p class="text-sm pl-6 pb-3">
+                        { blog.description }
+                    </p>
+                    {/* 第四行单词数和阅读时间 */}
+                    <div class="flex items-center pl-6">
+                        <p class="text-sm mr-1">{ blog.wordCount }</p>
+                        <p class="text-sm mr-3">words</p>
+                        <p class="text-sm mr-3">|</p>
+                        <p class="text-sm mr-1">{ blog.minutesRead }</p>
+                        <p class="text-sm">minutes</p>
+                    </div>
 
-                <div class="flex items-center">
-                    <Icon name="material-symbols:calendar-today-outline-rounded"/>
-                    <p class="">
-                        { blog.published.toISOString().slice(0, 10) }
-                    </p>
-                    <Icon name="material-symbols:book-2-outline-rounded"/>
-                    <p>
-                        { blog.category }
-                    </p>
-                    <Icon name="material-symbols:tag-rounded"/>
-                    <p>
-                        { blog.tags }
-                    </p>
                 </div>
 
-                <p>
-                    { blog.description }
-                </p>
-
+                {/* 右半边按钮 */}
+                <a href={`posts/${blog.slug}`} class="flex items-center justify-center 
+                w-[3.25rem] h-44 rounded-xl text-[var(--primary)] bg-[var(--btn-regular-bg)] 
+                hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)] 
+                active:scale-95 transition-all">
+                    <Icon name="material-symbols:chevron-right-rounded" class={` 
+                    w-9 h-9`}/>
+                </a>
             </div>
-            <a href={`posts/${blog.slug}`} class="flex items-center justify-center 
-            w-[3.25rem] h-44 rounded-xl text-[var(--primary)] bg-[var(--btn-regular-bg)] 
-            hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)] 
-            active:scale-95 transition-all">
-                <Icon name="material-symbols:chevron-right-rounded" class={` 
-                w-9 h-9`}/>
-            </a>
-        </div>
-    ))
-}
+        ))
+    }
+</div>
+
+<!-- 小屏时显示一张卡片 -->
+<div class="block md:hidden bg-[var(--card-bg)] rounded-2xl w-full px-4 py-4">
+    {
+        blogSummaries.map((blog, index) => (
+            <div>
+                {/* 第一行标题链接 */}
+                <a href={`posts/${blog.slug}`} class="flex items-center group mb-2.5">
+                    <p class="text-2xl font-bold group-hover:text-[var(--primary)]
+                    transition-all">{ blog.title }</p>
+                    <Icon name="material-symbols:chevron-right-rounded" class={`w-7 h-7
+                    text-[var(--primary)]`}/>
+                </a>
+                {/* 第二行 published/category/tag */}
+                <div class="flex items-center mb-2.5">
+                    {/* published */}
+                    <div class="flex items-center justify-center w-7 h-7 rounded-md 
+                    bg-[var(--btn-regular-bg)] mr-2">
+                        <Icon name="material-symbols:calendar-today-outline-rounded" class={`
+                        w-4 h-4 text-[var(--primary)]`}/>
+                    </div>
+                    <p class="text-xs mr-2">{ blog.published.toISOString().slice(0, 10) }</p>
+                    {/* category */}
+                    <div class="flex items-center justify-center w-7 h-7 rounded-md 
+                    bg-[var(--btn-regular-bg)] mr-2">
+                        <Icon name="material-symbols:book-2-outline-rounded" class={`
+                        w-4 h-4 text-[var(--primary)]`}/>
+                    </div>
+                    <p class="text-xs mr-2">{ blog.category }</p>
+                    {/* tag */}
+                    <div class="flex items-center justify-center w-7 h-7 rounded-md 
+                    bg-[var(--btn-regular-bg)] mr-2">
+                        <Icon name="material-symbols:tag-rounded" class={`
+                        w-4 h-4 text-[var(--primary)]`}/>
+                    </div>
+                    {
+                        blog.tags.map((tag, index) => (
+                            <div class="flex">
+                                <a href={`tag/${tag}`} class="text-xs mr-2">
+                                    { tag }
+                                </a>
+                                {index < (blog.tags.length - 1) && <p class="text-xs mr-2">/</p>}
+                            </div>
+                        ))
+                    }
+                </div>
+                {/* 第三行 description */}
+                <p class="text-xs mb-2.5">{ blog.description }</p>
+                {/* 第四行单词数和阅读时间 */}
+                <div class="flex items-center">
+                    <p class="text-xs mr-1">{ blog.wordCount }</p>
+                    <p class="text-xs mr-3">words</p>
+                    <p class="text-xs mr-3">|</p>
+                    <p class="text-xs mr-1">{ blog.minutesRead }</p>
+                    <p class="text-xs">minutes</p>
+                </div>
+                {index < (blogSummaries.length - 1) && <div class="my-2.5 border-t-[1px] border-dashed 
+                border-black/10 dark:border-white/[0.15] mx-6"></div>}
+            </div>
+        ))
+    }
+</div>
