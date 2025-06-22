@@ -1,3 +1,5 @@
+@plugin "@tailwindcss/typography";
+
 :root {
     /* --color-scheme: light dark; */
     color-scheme: var(--color-scheme);
