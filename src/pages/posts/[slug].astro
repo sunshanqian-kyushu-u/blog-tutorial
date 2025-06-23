@@ -33,7 +33,8 @@ const { Content } = await render(post!);
 ---
 
 <Layout>
-    <div class="prose rounded-2xl bg-[var(--card-bg)] p-4">
+    <!-- max-w-full 用以覆盖 prose 中的默认值 -->
+    <div class="prose rounded-2xl bg-[var(--card-bg)] p-4 max-w-full">
         <Content/>
     </div>
 </Layout>
