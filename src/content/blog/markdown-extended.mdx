@@ -9,6 +9,8 @@ category: Examples-1
 draft: false 
 ---
 
+import Admonition from "../../components/Admonition.astro"
+
 ## GitHub Repository Cards
 You can add dynamic cards that link to GitHub repositories, on page load, the repository information is pulled from the GitHub API. 
 
@@ -23,6 +25,10 @@ And this is a general inline code `inline code`.
 ## Admonitions
 
 Following types of admonitions are supported: `note` `tip` `important` `warning` `caution`
+
+<Admonition type="note" title="title">
+    This is a note admonition!
+</Admonition>
 
 :::note
 Highlights information that users should take into account, even when skimming.

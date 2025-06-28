@@ -1,0 +1,29 @@
+---
+const { type = "", title = "" } = Astro.props
+---
+
+<div class="flex w-full bg-slate-300 gap-4">
+    
+    <div class="flex w-1 rounded bg-[var(--primary)] ml-3"></div>
+    
+    <div class="bg-yellow-300">
+        
+        <div>11111</div>
+        <div>11111</div>
+        <div>11111</div>
+        
+        <p>
+            <slot></slot>
+        </p>
+    </div>
+</div>
+
+
+    <!-- <div class="flex 
+    before:w-1 before:bg-[var(--primary)] before:rounded-md before:mt-1">
+        <p>1111111</p>
+        <p>
+            <slot></slot>
+        </p>
+    </div> -->
+
