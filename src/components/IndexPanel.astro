@@ -1,55 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
-
 import { Icon } from 'astro-icon/components';
 
-// 计算字数
-const countWords = (text: string) => text.trim().split(/\s+/).length;
+import { getBlogSummaries } from '../scripts/blog';
 
-// 按 200 wpm 计算阅读时间
-const getReadingTime = (wordCount: number) => Math.ceil(wordCount / 200);
-
-let blogs = await getCollection('blog');
-
-blogs = blogs.filter((blog) => blog.data.draft !== true);
-
-blogs.sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
-
-const blogSummaries = blogs.map((blog) => {
-    const { title, published, category, tags, description } = blog.data;
-
-    const wordCount = countWords(blog.body);
-    const minutesRead = getReadingTime(wordCount);
-
-    return {
-        slug: blog.slug, 
-        title, 
-        published, 
-        category, 
-        tags, 
-        description, 
-        wordCount, 
-        minutesRead, 
-    };
-});
-// blogSummaries 输出示例
-// [
-//     {
-//         "slug": "markdown-extended", 
-//         "title": ...
-//         ...
-//         "tags": {
-//             "Demo", 
-//             "Example",
-//             ...
-//         },
-//         "description": "...",
-//         ...
-//     },
-//     {
-//         ...
-//     }
-// ]
+const blogSummaries = await getBlogSummaries();
 ---
 
 <!-- 对应了 PostCard.astro -->

@@ -1,40 +1,110 @@
 ---
-import { getCollection } from 'astro:content';
+import Layout from "../../layouts/Layout.astro";
 
-import Layout from "../../layouts/Layout.astro"
+import { getBlogSummaries } from "../../scripts/blog";
 
 import { getEntry, render } from 'astro:content';
 
-let blogs = await getCollection('blog');
-
-blogs = blogs.filter((blog) => blog.data.draft !== true);
+import { Icon } from "astro-icon/components";
 
 export async function getStaticPaths() {
+    const summaries = await getBlogSummaries();
 
-    return blogs.map((blog) => (
-        {
-            // [] 中的名字应该与下面的 params 的名字一致
-            params: { slug: blog.slug }
-        }
-    ))
+    return summaries.map((b) => ({
+        params: {slug: b.slug}
+    }));
 }
 
-// 然后可以通过这个方法将当前页面的 slug 用于后续操作如匹配 md 文件
+// 核心是这个要和上面的 getStaticPaths 的 params 对应
 const { slug } = Astro.params;
 
-// 如下面这一行所示
-const post = blogs.find((b) => b.slug === slug);
+const post = await getEntry('blog', slug);
 
-// 下面这个函数接收内容集合名(字符串)，如 'blogs'，和其中的一个 slug（就是上面的 slug）
-// const post = await getEntry('blog', slug);
-
-// 下面这个函数接收一个内容条目对象
 const { Content } = await render(post!);
+
+const summaries = await getBlogSummaries();
+
+const summary = summaries.find((b) => b.slug === slug);
 ---
 
 <Layout>
     <!-- max-w-full 用以覆盖 prose 中的默认值 -->
-    <div class="prose rounded-2xl bg-[var(--card-bg)] p-4 max-w-full">
-        <Content/>
+    <div class="rounded-2xl bg-[var(--card-bg)] px-9 py-6">
+        <!-- 字数和阅读时间 -->
+        <div class="flex items-center">
+            <div class="flex items-center justify-center w-6 h-6 rounded bg-slate-300">
+                <Icon name="material-symbols:notes-rounded" class="w-4 h-4"/>
+            </div>
+            <p class="ml-2 text-sm">{ summary?.wordCount }</p>
+            <p class="ml-1.5 text-sm">words</p>
+            <div class="flex items-center justify-center w-6 h-6 rounded bg-slate-300 ml-4">
+                <Icon name="material-symbols:schedule-outline-rounded" class="w-4 h-4"/>
+            </div>
+            <p class="ml-2 text-sm">{ summary?.minutesRead }</p>
+            <p class="ml-1.5 text-sm">minutes</p>
+        </div>
+        <!-- 标题 -->
+        <div class="flex items-center mt-5
+        before:w-1 before:h-6 before:bg-[var(--primary)] before:rounded-md">
+            <p class="pl-3 text-3xl font-bold">
+                { summary?.title }
+            </p>
+        </div>
+        <!-- published/updated/category/tags -->
+        <div class="flex items-center mt-5">
+            {/* published */}
+            <div class="flex items-center justify-center w-8 h-8 rounded-lg 
+            bg-[var(--btn-regular-bg)] mr-2">
+                <Icon name="material-symbols:calendar-today-outline-rounded" 
+                class={`w-5 h-5 text-[var(--primary)]`}/>
+            </div>
+            <p class="text-sm mr-4">
+                { summary?.published.toISOString().slice(0, 10) }
+            </p>
+            {/* updated */}
+            <div class="flex items-center justify-center w-8 h-8 rounded-lg 
+            bg-[var(--btn-regular-bg)] mr-2">
+                <Icon name="material-symbols:edit-calendar-outline-rounded" 
+                class={`w-5 h-5 text-[var(--primary)]`}/>
+            </div>
+            <p class="text-sm mr-4">
+                { summary?.published.toISOString().slice(0, 10) }
+            </p>
+            {/* category */}
+            <div class="flex items-center justify-center w-8 h-8 rounded-lg 
+            bg-[var(--btn-regular-bg)] mr-2">
+                <Icon name="material-symbols:book-2-outline-rounded" 
+                class={`w-5 h-5 text-[var(--primary)]`}/>
+            </div>
+            <div class="flex items-center justify-center group w-fit px-1 h-8 mr-4
+            hover:bg-[var(--btn-regular-bg)]">
+                <a href={`category/${summary?.category}`} class="text-sm">
+                    { summary?.category }
+                </a>
+            </div>
+            {/* tag */}
+            <div class="flex items-center justify-center w-8 h-8 rounded-lg 
+            bg-[var(--btn-regular-bg)] mr-2">
+                <Icon name="material-symbols:tag-rounded" 
+                class={`w-5 h-5 text-[var(--primary)]`}/>
+            </div>
+            {
+                summary?.tags.map((tag, index) => (
+                    <div class="flex">
+                        <a href={`tag/${tag}`} class="text-sm mr-2">
+                            { tag }
+                        </a>
+                        {index < (summary?.tags.length - 1) && <p class="text-sm mr-2">/</p>}
+                    </div>
+                ))
+            }
+        </div>
+        <!-- 下划线 -->
+        <div class="mt-5 border-t-[1px] border-dashed 
+        border-black/10 dark:border-white/[0.15]"></div>
+        <!-- 正文 -->
+        <div class="prose max-w-full mt-10">
+            <Content />
+        </div>
     </div>
 </Layout>
