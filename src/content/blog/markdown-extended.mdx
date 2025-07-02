@@ -26,29 +26,25 @@ And this is a general inline code `inline code`.
 
 Following types of admonitions are supported: `note` `tip` `important` `warning` `caution`
 
-<Admonition type="note" title="title">
-    This is a note admonition!
+<Admonition type="note">
+    Highlights information that users should take into account, even when skimming.
 </Admonition>
 
-:::note
-Highlights information that users should take into account, even when skimming.
-:::
+<Admonition type="tip">
+    Optional information to help a user be more successful.
+</Admonition>
 
-:::tip
-Optional information to help a user be more successful.
-:::
+<Admonition type="important">
+    Crucial information necessary for users to succeed.
+</Admonition>
 
-:::important
-Crucial information necessary for users to succeed.
-:::
+<Admonition type="warning">
+    Critical content demanding immediate user attention due to potential risks.
+</Admonition>
 
-:::warning
-Critical content demanding immediate user attention due to potential risks.
-:::
-
-:::caution
-Negative potential consequences of an action.
-:::
+<Admonition type="caution">
+    Negative potential consequences of an action.
+</Admonition>
 
 ### Basic Syntax
 
@@ -66,9 +62,9 @@ Optional information to help a user be more successful.
 
 The title of the admonition can be customized.
 
-:::note[MY CUSTOM TITLE]
-This is a note with a custom title.
-:::
+<Admonition type="note" title="MY CUSTOM TITLE">
+    This is a note with a custom title.
+</Admonition>
 
 ```markdown
 :::note[MY CUSTOM TITLE]

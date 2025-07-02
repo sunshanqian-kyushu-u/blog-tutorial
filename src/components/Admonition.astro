@@ -1,28 +1,56 @@
 ---
 import { Icon } from "astro-icon/components";
 
+// 这个是防止下面 iconMap[type] 报错
+type AdmonitionType = 'note' | 'tip' | 'important' | 'warning' | 'caution'
+
+const iconMap = {
+    note: "lucide:circle-alert",
+    tip: "lucide:lightbulb",
+    important: "lucide:message-square-warning",
+    warning: "lucide:triangle-alert",
+    caution: "lucide:octagon-alert"
+}
+
+const beforeColorMap = {
+  note: 'before:bg-blue-300',
+  tip: 'before:bg-green-300',
+  important: 'before:bg-purple-300',
+  warning: 'before:bg-orange-300',
+  caution: 'before:bg-red-300'
+}
+
+const textColorMap = {
+  note: 'text-blue-300',
+  tip: 'text-green-300',
+  important: 'text-purple-300',
+  warning: 'text-orange-300',
+  caution: 'text-red-300'
+}
+
+interface Props {
+  type?: AdmonitionType
+  title?: string
+}
+
 const { type = "note", title = "" } = Astro.props
+
+const iconName = iconMap[type]
+const beforeColorClass = beforeColorMap[type]
+const textColorClass = textColorMap[type]
 ---
 
-<div class={`flex w-full before:w-1 before:rounded`} 
-class:list={{'before:bg-blue-300': type === 'note', 'before:bg-green-300': type === 'tip', 
-'before:bg-purple-300': type === 'important', 'before:bg-orange-300': type === 'warning',
-'before:bg-red-300': type === 'caution'}}>
+<div class={`flex w-full before:w-1 before:rounded ${beforeColorClass} my-6`} >
     
-    <div class="ml-2">
+    <div class="ml-3.5">
         <!-- 第一行符号和 title -->
-        <div class="flex items-center bg-slate-200">
-            <Icon name="lucide:alert-circle" class={`w-[18px] h-[18px]`} class:list={{
-            'text-blue-300': type === 'note', 'text-green-300': type === 'tip', 
-            'text-purple-300': type === 'important', 'text-orange-300': type === 'warning',
-            'text-red-300': type === 'caution'}}/>
-            <p class="ml-2 font-bold my-0" class:list={{'text-blue-300': type === 'note', 
-            'text-green-300': type === 'tip', 'text-purple-300': type === 'important', 
-            'text-orange-300': type === 'warning', 'text-red-300': type === 'caution'}}>
+        <div class="flex items-center">
+            <Icon name={iconName} class={`${textColorClass} w-[18px] h-[18px]`}/>
+            <p class={`${textColorClass} ml-2 font-bold my-0`}>
             { title === "" ? type.toUpperCase() : title.toUpperCase() }</p>
         </div>
-        <p class="my-0">
+        <div class="prose-p:my-0.5">
             <slot></slot>
-        </p>
+        </div>
     </div>
 </div>
