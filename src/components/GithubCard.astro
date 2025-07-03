@@ -1,11 +1,47 @@
 ---
+import { Icon } from 'astro-icon/components'
+import { fetchRepoInfo as fetchGithubRepoInfo } from '../utils/github'
+
 interface Props {
-  repo: string
+	repo: string
 }
 
 const { repo } = Astro.props
+
+const githubRepoInfo = await fetchGithubRepoInfo(repo)
 ---
 
-<div >
-  122333
-</div>
+<a href={ githubRepoInfo.url } target="_blank" class="no-underline">
+	<div class="w-full bg-slate-200 rounded-xl px-6 py-6 bg-opacity-50
+	group hover:bg-[var(--btn-bg-hover)] transition-all">
+		<!-- 第一行 -->
+		<div class="flex items-center justify-between">
+			<!-- 靠左靠右 -->
+			<div class="flex items-center">
+				<!-- 头像 -->
+				<img src={ githubRepoInfo.avatar } class="w-8 h-8 rounded-full my-0"/>
+				<!-- 名字 -->
+				<p class="my-0 ml-4 text-xl group-hover:text-[var(--primary)] transition-all">
+					{ githubRepoInfo.owner }
+				</p>
+				<p class="my-0 ml-2 text-xl group-hover:text-[var(--primary)] transition-all">/</p>
+				<p class="my-0 ml-2 text-xl font-bold 
+				group-hover:text-[var(--primary)] transition-all">
+					{ githubRepoInfo.name }
+				</p>
+			</div>
+			<Icon name="fa6-brands:github" class={`w-8 h-8`}></Icon>
+		</div>
+		<!-- 第二行 -->
+		<p class="my-2.5">{ githubRepoInfo.description }</p>
+		<!-- 第三行 -->
+		<div class="flex items-center">
+			<Icon name="lucide:star"></Icon>
+			<p class="my-0 ml-2">{ githubRepoInfo.stars }</p>
+			<Icon name="lucide:git-fork" class={`ml-6`}></Icon>
+			<p class="my-0 ml-2">{ githubRepoInfo.forks }</p>
+			<Icon name="lucide:scale" class={`ml-6`}></Icon>
+			<p class="my-0 ml-2">{ githubRepoInfo.license }</p>
+		</div>
+	</div>
+</a>
