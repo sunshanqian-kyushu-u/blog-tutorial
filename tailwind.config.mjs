@@ -8,7 +8,7 @@ export default {
 		extend: {
 			screens: {
 				'xxl': '1192px',
-			}
+			},
 		},
 	},
 	plugins: [typography],

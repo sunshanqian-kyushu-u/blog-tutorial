@@ -90,3 +90,12 @@
 .float-panel-closed {
     @apply -translate-y-1 opacity-0 pointer-events-none;
 }
+
+.prose p code::before,
+.prose p code::after {
+    content: none !important;
+}
+
+.prose p code {
+    @apply bg-[var(--btn-regular-bg-hover)] text-[var(--btn-content)] rounded px-0.5 py-0.5
+}
