@@ -49,7 +49,8 @@ const textColorClass = textColorMap[type]
             <p class={`${textColorClass} ml-2 font-bold my-0`}>
             { title === "" ? type.toUpperCase() : title.toUpperCase() }</p>
         </div>
-        <div class="prose-p:my-0.5">
+        <!-- prose-p:my-0.5 -->
+        <div class="my-0.5">
             <slot></slot>
         </div>
     </div>
