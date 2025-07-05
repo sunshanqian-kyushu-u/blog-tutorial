@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
     /* --color-scheme: light dark; */
     color-scheme: var(--color-scheme);
@@ -91,11 +95,16 @@
     @apply -translate-y-1 opacity-0 pointer-events-none;
 }
 
-.prose p code::before,
-.prose p code::after {
-    content: none !important;
-}
+@layer components {
+    .post-content code {
+        @apply text-[var(--primary)] bg-[var(--btn-regular-bg)] rounded p-0.5;
+    }
 
-.prose p code {
-    @apply bg-[var(--btn-regular-bg-hover)] text-[var(--btn-content)] rounded px-0.5 py-0.5
+    .post-content > h2 {
+        @apply text-2xl font-bold my-4;
+    }
+
+    .post-content > p {
+        @apply mb-3 leading-relaxed;
+    }
 }
