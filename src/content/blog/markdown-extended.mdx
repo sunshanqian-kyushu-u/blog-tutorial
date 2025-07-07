@@ -12,7 +12,7 @@ draft: false
 import Admonition from "../../components/Admonition.astro"
 import GithubCard from "../../components/GithubCard.astro"
 
-## GitHub Repository Cards
+# GitHub Repository Cards
 You can add dynamic cards that link to GitHub repositories, on page load, the repository information is pulled from the GitHub API. 
 
 <GithubCard repo="Fabrizz/MMM-OnSpotify"></GithubCard>
@@ -21,11 +21,19 @@ Create a GitHub repository card with the code `::github{repo="<owner>/<repo>"}`.
 
 And this is a general inline code `inline code`.
 
+```ts {2} showLineNumbers
+const a = 1;
+const b = 2; // 这行会高亮
+const c = 3;
+```
+
+Break code block.
+
 ```markdown
 ::github{repo="saicaca/fuwari"}
 ```
 
-## Admonitions
+# Admonitions
 
 Following types of admonitions are supported: `note` `tip` `important` `warning` `caution`
 
@@ -49,7 +57,7 @@ Following types of admonitions are supported: `note` `tip` `important` `warning`
     Negative potential consequences of an action.
 </Admonition>
 
-### Basic Syntax
+## Basic Syntax
 
 ```markdown
 :::note
@@ -61,7 +69,7 @@ Optional information to help a user be more successful.
 :::
 ```
 
-### Custom Titles
+## Custom Titles
 
 The title of the admonition can be customized.
 
@@ -75,7 +83,7 @@ This is a note with a custom title.
 :::
 ```
 
-### GitHub Syntax
+## GitHub Syntax
 
 > [!TIP]
 > [The GitHub syntax](https://github.com/orgs/community/discussions/16925) is also supported.

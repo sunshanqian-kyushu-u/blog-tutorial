@@ -7,6 +7,8 @@ import { getEntry, render } from 'astro:content';
 
 import { Icon } from "astro-icon/components";
 
+// import { mdxToHtml } from "../../utils/markdown";
+
 export async function getStaticPaths() {
     const summaries = await getBlogSummaries();
 
@@ -26,23 +28,7 @@ const summaries = await getBlogSummaries();
 
 const summary = summaries.find((b) => b.slug === slug);
 
-// 测试用
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkMdx from 'remark-mdx'
-import remarkRehype from "remark-rehype";
-import rehypePrettyCode from "rehype-pretty-code";
-import rehypeStringify from "rehype-stringify";
-
-const file = await unified()
-        .use(remarkParse)
-        .use(remarkMdx)
-        .use(remarkRehype)
-        .use(rehypePrettyCode, {
-            // options
-        })
-        .use(rehypeStringify)
-        .process(post?.body)
+// const Html = mdxToHtml(post?.body)
 ---
 
 <Layout>
@@ -122,9 +108,10 @@ const file = await unified()
         border-black/10 dark:border-white/[0.15]"></div>
         <!-- 正文 -->
         <!-- prose max-w-full -->
+        <!-- <div class="post-content mt-10" set:html={ Html }> -->
         <div class="post-content mt-10">
-            <!-- <Content /> -->
-            { file }
+            <Content />
+            <!-- { Html } -->
         </div>
     </div>
 </Layout>
