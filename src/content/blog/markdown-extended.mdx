@@ -21,16 +21,18 @@ Create a GitHub repository card with the code `::github{repo="<owner>/<repo>"}`.
 
 And this is a general inline code `inline code`.
 
-```ts {2} showLineNumbers
+```ts {2}#a {4}#b showLineNumbers
 const a = 1;
 const b = 2; // 这行会高亮
 const c = 3;
+const d = 4;
 ```
 
 Break code block.
 
-```markdown
+```markdown showLineNumbers
 ::github{repo="saicaca/fuwari"}
+111
 ```
 
 # Admonitions
@@ -59,7 +61,7 @@ Following types of admonitions are supported: `note` `tip` `important` `warning`
 
 ## Basic Syntax
 
-```markdown
+```markdown showLineNumbers
 :::note
 Highlights information that users should take into account, even when skimming.
 :::

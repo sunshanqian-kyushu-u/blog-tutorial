@@ -49,6 +49,9 @@
 
     --btn-plain-bg-hover: light-dark(oklch(0.95 0.025 var(--hue)), oklch(0.30 0.035 var(--hue)));
     --btn-plain-bg-active: light-dark(oklch(0.98 0.01 var(--hue))， oklch(0.27 0.025 var(--hue)));
+
+    --code-block-bg: light-dark(oklch(0.97 0.01 230), oklch(0.36 0.01 270));
+    --code-block-highlight: light-dark(oklch(0.88 0.14 100), oklch(0.70 0.13 100 / 0.1));
 }
 
 .slider {
@@ -96,9 +99,15 @@
 }
 
 @layer components {
-    /* .post-content code {
+    /* 行内代码 */
+    .post-content code:not([style*="display:grid"]) {
         @apply text-[var(--primary)] bg-[var(--btn-regular-bg)] rounded p-0.5;
-    } */
+    }
+
+    /* 代码块背景 */
+    .post-content [data-rehype-pretty-code-figure] > pre {
+        @apply rounded pl-4 bg-[var(--code-block-bg)];
+    }
 
     .post-content > h1 {
         @apply text-2xl font-bold my-4;
@@ -143,4 +152,25 @@
     code[data-line-numbers-max-digits="4"] > [data-line]::before {
         width: 2.25rem;
     }
+}
+
+@layer utilities {
+    /* 代码块高亮（无id） */
+    .post-content [data-highlighted-line] {
+        @apply bg-[var(--code-block-highlight)];
+    }
+
+    /* 代码块高亮（有id） */
+    .post-content [data-highlighted-line-id='a'] {
+        @apply bg-red-200;
+    }
+
+    /* 代码块高亮（有id） */
+    .post-content [data-highlighted-line-id='b'] {
+        @apply bg-green-200;
+    }
+}
+
+@layer utilities {
+    
 }

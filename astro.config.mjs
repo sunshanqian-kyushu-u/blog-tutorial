@@ -11,8 +11,6 @@ import mdx from '@astrojs/mdx';
 
 import rehypePrettyCode from 'rehype-pretty-code';
 
-import moonlightTheme from './public/moonlight-ii.json';
-
 import { transformerCopyButton } from '@rehype-pretty/transformers' with { type: 'json' };
 
 // https://astro.build/config
@@ -20,11 +18,20 @@ export default defineConfig({
 	markdown: {
 		syntaxHighlight: false,
 		rehypePlugins: [[rehypePrettyCode,{
-			theme: moonlightTheme,
+			// theme: {
+			// 	dark: "github-dark-default",
+			// 	light: "github-light-default",
+			// },
+			keepBackground: false,
+			// bypassInlineCode: false, // Skip inline code highlighting
+			// defaultLang: {
+			// 	block: "plaintext",
+			// 	inline: "plaintext",
+			// },
 			transformers: [
             	transformerCopyButton({
-					visibility: 'hover',
-					feedbackDuration: 3_500,
+					// visibility: 'hover',
+					// feedbackDuration: 3_500,
 				}),
 			],
 		}]],
