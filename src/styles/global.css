@@ -161,12 +161,12 @@
     }
 
     /* 代码块高亮（有id） */
-    .post-content [data-highlighted-line-id='a'] {
+    .post-content [data-highlighted-line-id='n'] {
         @apply bg-red-200;
     }
 
     /* 代码块高亮（有id） */
-    .post-content [data-highlighted-line-id='b'] {
+    .post-content [data-highlighted-line-id='p'] {
         @apply bg-green-200;
     }
 }
