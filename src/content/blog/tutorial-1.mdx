@@ -14,60 +14,42 @@ import Admonition from "../../components/Admonition.astro"
 # 111
 
 In this tutorial, we will learn how to build our own Astro blog inspired by the design of the 
-**Fuwari blog**, as the link below. 
+**Fuwari blog**. 
 
 <GithubCard repo="saicaca/fuwari"></GithubCard>
 
 Our blog will look like [this](https://fuwari.vercel.app/).
 
-
+We will learn to use Astro, Tailwind, Svelte and their excellent features. 
 Let's start this exciting journey! 
 
-# Prepare your dev environment
+# Hello, Astro!
 
-GET READY TO...
+Please refer to Unit 0 of [this tutorial](https://docs.astro.build/en/tutorial/0-introduction/) 
+to the end of Unit 1. It will show you how to create your blog project and publish it to Netlify.
 
-## Terminal
+# Project Structure of a Fresh Astro Project
 
-You will use a **command line (terminal)** to create your Astro project. For Astro to 
-run on your system, you need to have a compatible version of 
-[Node.js](https://nodejs.org/en/) installed. 
+When you create a new Astro project with the empty template, you will get a minimal setup. 
+Here are the most important directories and files:
 
-## Node.js
+src/
 
-Astro supports **even-nunmbered** Node.js versions like `v18.20.8`, `v20.3.0`, 
-and `v22.0.0`. (`v19` and `v21` are not supported.) To check whether you already 
-have a compatible version installed, run the following command in your terminal:
+This is the main source directory of your project. 
+All of your pages, components, and styles should be placed here.
 
-```bat
-node -v
+src/pages/
 
-// Example output
-v18.20.8
-```
+Every files inside src/pages/ becomes a route on your site. Astro uses a file-based routing system.
 
-If the command returns a version number supported by Astro, you're good to go!
+Example: src/pages/index.astro -> /
+Example: src/pages/about.astro -> /about
 
+src/pages/index.astro
 
-If the command returns an error message like `Command 'node' not found`, 
-or a version number lower than the required, then you need to 
-[install a compatible Node.js version](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm). 
+The default homepage of your site.
 
-## Code Editor
+astro.config.mjs
 
-Additionally, you will need to download and install a **code editor** to write your code. 
+The main configuration file for your Astro project.
 
-<Admonition type="note">
-    This tutorial will use **VS Code**, but you can use any editor for your operating system. 
-</Admonition>
-
-[Download and install VS Code](https://code.visualstudio.com/#alt-downloads) or another code 
-editor of your choice. 
-
-# Create your first Astro project
-
-GET READY TO...
-
-## Launch the Astro setup wizard
-
-The preferred way to create a new Astro site is through the `create astro` setup wizard. 
